@@ -1,0 +1,2656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<title>Protocolo Isabel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0A; --bg2:#111111; --bg3:#1A1A1A; --bg4:#222222;
+  --border:#2A2A2A; --neon:#39FF14; --neon2:#2BC40F;
+  --neon-dim:rgba(57,255,20,.12); --neon-glow:0 0 12px rgba(57,255,20,.4);
+  --text:#F0F0F0; --text2:#B0B0B0; --text3:#707070;
+  --red:#FF4444; --red-dim:rgba(255,68,68,.12);
+  --gold:#FFB800; --gold-dim:rgba(255,184,0,.12);
+  --blue:#00D4FF; --blue-dim:rgba(0,212,255,.1);
+}
+*{margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{background:var(--bg); font-family:'DM Sans',sans-serif; color:var(--text); min-height:100vh; font-size:16px; padding-bottom:70px;}
+
+/* ===== VIEWS / TRANSITIONS ===== */
+.view{display:none;}
+.view.active{display:block; animation:viewIn .3s ease;}
+@keyframes viewIn{from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);}}
+@keyframes pop{from{opacity:0; transform:scale(.94);} to{opacity:1; transform:scale(1);}}
+
+/* ===== TOPBAR / BACK ===== */
+.topbar{
+  position:sticky; top:0; z-index:120;
+  display:flex; align-items:center; gap:12px;
+  background:rgba(17,17,17,.96); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border); padding:14px 16px;
+}
+.back-btn{
+  display:inline-flex; align-items:center; gap:7px;
+  background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+  color:var(--neon); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700;
+  padding:9px 15px; cursor:pointer; letter-spacing:.3px;
+}
+.back-btn:active{background:var(--bg4);}
+.topbar-title{font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1.5px; color:var(--text); line-height:1;}
+
+/* ===== HEADER (home) ===== */
+.header{background:var(--bg2); padding:46px 20px 30px; border-bottom:1px solid var(--border); position:relative; overflow:hidden;}
+.header::before{content:''; position:absolute; top:-90px; right:-90px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,rgba(57,255,20,.07) 0%,transparent 70%);}
+.header-label{font-size:12px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--neon); margin-bottom:8px;}
+.header h1{font-family:'Bebas Neue',sans-serif; font-size:58px; color:var(--text); letter-spacing:2px; line-height:1; margin-bottom:10px;}
+.header h1 span{color:var(--neon);}
+.header-sub{font-size:14px; color:var(--text3); letter-spacing:.5px;}
+
+/* ===== HOME ===== */
+.home-wrap{padding:22px 16px 12px;}
+.home-q{font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text3); margin:6px 4px 16px;}
+.home-card{
+  background:var(--bg2); border:1px solid var(--border); border-radius:20px;
+  padding:24px 20px; margin-bottom:13px; display:flex; align-items:center; gap:18px;
+  cursor:pointer; transition:transform .14s ease, border-color .2s ease;
+}
+.home-card:active{transform:scale(.975); border-color:var(--neon);}
+.home-card-emoji{font-size:38px; flex-shrink:0; line-height:1;}
+.home-card-title{font-family:'Bebas Neue',sans-serif; font-size:27px; letter-spacing:1px; color:var(--text); line-height:1.05;}
+.home-card-sub{font-size:13px; color:var(--text3); margin-top:4px; line-height:1.4;}
+.home-card-arrow{margin-left:auto; color:var(--text3); font-size:20px; flex-shrink:0;}
+
+.home-btns{display:flex; gap:12px; margin-top:6px;}
+.home-btn{
+  flex:1; background:var(--bg3); border:1px solid var(--border); border-radius:16px;
+  padding:18px 12px; text-align:center; cursor:pointer; transition:transform .14s, border-color .2s;
+}
+.home-btn:active{transform:scale(.97); border-color:var(--neon);}
+.home-btn-emoji{font-size:24px;}
+.home-btn-label{font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text2); margin-top:6px;}
+
+.home-stretch{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  margin-top:12px; background:var(--gold-dim); border:1px solid rgba(255,184,0,.3);
+  border-radius:16px; padding:15px 14px; cursor:pointer; transition:transform .14s;
+}
+.home-stretch:active{transform:scale(.98);}
+.home-stretch span{font-size:13px; font-weight:700; letter-spacing:.5px; color:var(--gold);}
+
+/* ===== SECTION TITLES ===== */
+.section-pad{padding:20px 16px 8px;}
+.sec-title{
+  font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--neon); letter-spacing:2px;
+  margin:26px 0 14px; padding-bottom:10px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:10px;
+}
+.sec-title:first-child{margin-top:4px;}
+.sec-title .n{font-size:13px; color:var(--text3); letter-spacing:1px; margin-left:auto; font-family:'DM Sans',sans-serif; font-weight:700;}
+
+/* ===== MEAL CARDS ===== */
+.card{background:var(--bg2); border:1px solid var(--border); border-radius:14px; margin-bottom:10px; overflow:hidden;}
+.card-header{display:flex; align-items:center; padding:15px 15px; cursor:pointer; gap:12px;}
+.card-header:active{background:var(--bg3);}
+.card-time{background:var(--neon); color:var(--bg); font-size:12px; font-weight:700; padding:4px 11px; border-radius:20px; white-space:nowrap; letter-spacing:.5px; flex-shrink:0;}
+.card-time.red{background:var(--red); color:#fff;}
+.card-time.gold{background:var(--gold); color:var(--bg);}
+.card-time.blue{background:var(--blue); color:var(--bg);}
+.card-name{flex:1; font-size:15px; font-weight:600; color:var(--text); line-height:1.3;}
+.card-meta{font-size:12px; color:var(--text3); text-align:right; line-height:1.4; white-space:nowrap;}
+.card-chevron{color:var(--text3); font-size:12px; transition:transform .2s; flex-shrink:0;}
+.card.open .card-chevron{transform:rotate(180deg);}
+.card-body{display:none; padding:2px 15px 16px; border-top:1px solid var(--border);}
+.card.open .card-body{display:block; animation:pop .2s ease;}
+
+.opt-label{font-size:11px; font-weight:700; color:var(--text3); letter-spacing:2px; text-transform:uppercase; margin:14px 0 8px;}
+.opt{background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:11px 13px; margin-bottom:6px; font-size:14.5px; color:var(--text2); line-height:1.6;}
+.opt.obrig{background:var(--neon-dim); border-color:var(--neon); color:var(--text);}
+.opt strong{color:var(--text);}
+.badge-obrig{display:inline-block; background:var(--neon); color:var(--bg); font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 7px; border-radius:6px; margin-right:6px;}
+
+.supl{background:rgba(0,212,255,.07); border:1px solid rgba(0,212,255,.2); border-radius:12px; padding:13px; margin-top:12px;}
+.supl-title{font-size:11px; font-weight:700; color:var(--blue); letter-spacing:2px; text-transform:uppercase; margin-bottom:9px;}
+.supl-item{font-size:13.5px; color:#80E8FF; padding:4px 0; display:flex; align-items:flex-start; gap:8px; line-height:1.5;}
+.supl-item::before{content:'›'; color:var(--blue); font-size:16px; line-height:1; flex-shrink:0;}
+
+.alert{background:var(--red-dim); border-left:3px solid var(--red); border-radius:0 10px 10px 0; padding:11px 13px; margin-top:10px; font-size:13.5px; color:#FF9999; line-height:1.6;}
+.note{background:var(--gold-dim); border-left:3px solid var(--gold); border-radius:0 10px 10px 0; padding:11px 13px; margin-top:10px; font-size:13.5px; color:#FFD566; line-height:1.6;}
+.info-inline{background:var(--neon-dim); border-left:3px solid var(--neon); border-radius:0 10px 10px 0; padding:11px 13px; margin-top:10px; font-size:13.5px; color:#B8FFA8; line-height:1.6;}
+
+/* ===== SCHEDULE ===== */
+.schedule{background:var(--bg2); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:16px;}
+.sch-item{display:flex; align-items:center; padding:13px 15px; border-bottom:1px solid var(--border); gap:13px;}
+.sch-item:last-child{border-bottom:none;}
+.sch-time{font-family:'Bebas Neue',sans-serif; font-size:18px; font-weight:700; color:var(--neon); min-width:52px; letter-spacing:1px;}
+.sch-dot{width:7px; height:7px; border-radius:50%; background:var(--border); flex-shrink:0;}
+.sch-dot.hi{background:var(--neon); box-shadow:var(--neon-glow);}
+.sch-dot.red{background:var(--red);}
+.sch-dot.gold{background:var(--gold);}
+.sch-dot.blue{background:var(--blue);}
+.sch-event{font-size:14px; color:var(--text2); flex:1; line-height:1.5;}
+.sch-event strong{color:var(--text);}
+.sch-event.hi{color:var(--neon); font-weight:600;}
+.sch-event.red{color:var(--red); font-weight:600;}
+.sch-event.gold{color:var(--gold); font-weight:600;}
+.sch-event.blue{color:var(--blue); font-weight:600;}
+
+/* ===== ACCORDION ===== */
+.acc{background:var(--bg2); border:1px solid var(--border); border-radius:14px; margin-bottom:10px; overflow:hidden;}
+.acc.open{overflow:visible;}
+.acc-header{display:flex; align-items:center; padding:16px 16px; cursor:pointer; gap:13px; user-select:none;}
+.acc-header:active{background:var(--bg3);}
+.acc-icon{font-size:21px; flex-shrink:0;}
+.acc-title{flex:1; font-size:16px; font-weight:600; color:var(--text); line-height:1.3;}
+.acc-sub{font-size:12.5px; color:var(--text3); margin-top:2px; font-weight:400;}
+.acc-chevron{color:var(--text3); font-size:12px; transition:transform .25s; flex-shrink:0;}
+.acc.open>.acc-header>.acc-chevron{transform:rotate(180deg);}
+.acc-body{display:none; padding:0 16px 16px; border-top:1px solid var(--border);}
+.acc.open>.acc-body{display:block; animation:pop .2s ease;}
+.acc .acc{background:var(--bg3);}
+
+/* ===== EXERCISE / STRETCH ROWS ===== */
+.ex-row{display:flex; align-items:center; background:var(--bg3); border:1px solid var(--border); border-radius:12px; padding:13px 15px; margin-bottom:8px; gap:12px; cursor:pointer; transition:border-color .2s;}
+.ex-row:active{border-color:var(--neon);}
+.ex-row.warn{border-color:rgba(255,68,68,.45); background:rgba(255,68,68,.05);}
+.ex-row.warn:active{border-color:var(--red);}
+.ex-row-info{flex:1; min-width:0;}
+.ex-row-name{font-size:15px; font-weight:600; color:var(--text); margin-bottom:4px; line-height:1.3;}
+.ex-row-sets{font-size:12.5px; color:var(--neon); font-weight:600;}
+.ex-row-input{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+.ex-row-input label{font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:2px;}
+.ex-row-input input{background:var(--bg4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:15px; font-family:'DM Sans',sans-serif; padding:6px 8px; width:62px; text-align:center; outline:none;}
+.ex-row-input input:focus{border-color:var(--neon);}
+.ex-row-save{background:var(--neon); color:var(--bg); border:none; border-radius:8px; padding:8px 11px; font-size:12px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; letter-spacing:.5px; white-space:nowrap;}
+.ex-row-save:active{opacity:.8;}
+.ex-row-save.done{background:var(--neon2);}
+.ex-row-chev{color:var(--text3); font-size:16px; flex-shrink:0;}
+.stretch-day-label{font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; color:var(--neon); margin:18px 0 4px;}
+.stretch-day-sub{font-size:12px; color:var(--text3); margin-bottom:12px;}
+
+/* ===== TABLES ===== */
+.tbl{width:100%; border-collapse:collapse;}
+.tbl th{background:var(--neon); color:var(--bg); font-size:12px; font-weight:700; padding:10px 12px; text-align:left; letter-spacing:.5px;}
+.tbl th:first-child{border-radius:8px 0 0 0;}
+.tbl th:last-child{border-radius:0 8px 0 0;}
+.tbl td{font-size:14px; padding:10px 12px; color:var(--text2); border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5;}
+.tbl tr:nth-child(even) td{background:var(--bg3);}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl td:first-child{font-weight:600; color:var(--neon);}
+.week-table{width:100%; border-collapse:collapse; margin-bottom:16px;}
+.week-table th{background:var(--bg3); color:var(--text3); font-size:11px; font-weight:700; padding:10px 10px; text-align:left; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--border);}
+.week-table td{padding:12px 10px; font-size:13.5px; color:var(--text2); border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5;}
+.week-table td:first-child{color:var(--neon); font-weight:700; font-size:14px;}
+.week-table tr:last-child td{border-bottom:none;}
+
+/* ===== GOALS ===== */
+.goals-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;}
+.goal{background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:15px 12px; text-align:center;}
+.goal-measure{font-size:11px; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;}
+.goal-current{font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--text); letter-spacing:1px;}
+.goal-target{font-size:12px; color:var(--neon); margin-top:4px; font-weight:500;}
+
+.info-block{background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:16px; margin-bottom:12px;}
+.info-title{font-size:11px; font-weight:700; color:var(--neon); letter-spacing:2px; text-transform:uppercase; margin-bottom:12px;}
+.info-row{display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:14px; color:var(--text2); line-height:1.6;}
+.info-row:last-child{border-bottom:none; padding-bottom:0;}
+.info-row-icon{color:var(--neon); flex-shrink:0; font-size:15px;}
+
+/* ===== CALCULATOR ===== */
+.calc-wrap{background:var(--bg3); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:14px;}
+.calc-title{font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--neon); letter-spacing:2px; margin-bottom:14px;}
+.calc-group{margin-bottom:14px;}
+.calc-label{font-size:12px; font-weight:700; color:var(--text3); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px;}
+.calc-select,.calc-qty{width:100%; background:var(--bg4); border:1px solid var(--border); border-radius:10px; color:var(--text); font-size:16px; font-family:'DM Sans',sans-serif; padding:12px 14px; outline:none;}
+.calc-select{appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23707070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center;}
+.calc-select:focus,.calc-qty:focus{border-color:var(--neon);}
+.calc-btn{width:100%; background:var(--neon); color:var(--bg); border:none; border-radius:10px; padding:14px; font-size:16px; font-weight:700; font-family:'DM Sans',sans-serif; cursor:pointer; letter-spacing:1px; text-transform:uppercase; margin-top:4px;}
+.calc-btn:active{opacity:.85;}
+.calc-results{margin-top:16px;}
+.calc-result-item{background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:13px 15px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:12px;}
+.calc-result-name{font-size:14.5px; font-weight:600; color:var(--text);}
+.calc-result-qty{font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--neon); letter-spacing:1px; white-space:nowrap;}
+
+/* ===== MODAL ===== */
+.modal-overlay{display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:500; padding:24px 16px; overflow-y:auto;}
+.modal-overlay.open{display:flex; align-items:flex-start; justify-content:center;}
+.modal{background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:22px; width:100%; max-width:480px; margin:auto; animation:pop .22s ease;}
+.modal-header{display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; gap:12px;}
+.modal-title{font-size:19px; font-weight:700; color:var(--text); line-height:1.3;}
+.modal-close{background:var(--bg3); border:1px solid var(--border); border-radius:50%; color:var(--text3); font-size:17px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;}
+.modal-section{margin-bottom:14px;}
+.modal-label{font-size:11px; font-weight:700; color:var(--neon); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;}
+.modal-content{font-size:14.5px; color:var(--text2); line-height:1.7;}
+.modal-tag{display:inline-block; background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:4px 10px; font-size:13px; color:var(--text2); margin:3px 3px 3px 0;}
+.modal-tag.warm{border-color:#555; color:var(--text3);}
+.modal-tag.pre{border-color:var(--gold); color:var(--gold);}
+.modal-tag.main{border-color:var(--neon); color:var(--neon); font-weight:600;}
+.stretch-svg{background:var(--bg3); border:1px solid var(--border); border-radius:16px; padding:14px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+.stretch-svg svg{width:100%; max-width:230px; height:auto; display:block;}
+
+.footer-note{text-align:center; color:var(--text3); font-size:12px; padding:20px 16px 8px; line-height:1.6;}
+
+/* ===== ABAS INTERNAS DE CENÁRIO ===== */
+.inner-tabs{
+  display:flex; background:var(--bg2); border-bottom:1px solid var(--border);
+  overflow-x:auto; scrollbar-width:none; position:sticky; top:63px; z-index:110;
+}
+.inner-tabs::-webkit-scrollbar{display:none;}
+.inner-tab{
+  flex:none; padding:13px 16px; font-size:13px; font-weight:700; color:var(--text3);
+  background:transparent; border:none; border-bottom:3px solid transparent;
+  white-space:nowrap; letter-spacing:.5px; cursor:pointer; font-family:'DM Sans',sans-serif;
+  transition:color .2s;
+}
+.inner-tab.active{color:var(--neon); border-bottom-color:var(--neon);}
+.scenario-tab-content{animation:viewIn .25s ease;}
+
+/* ===== BOTÕES COLAPSÁVEIS DE REFEIÇÃO ===== */
+.meal-warning-btn{
+  display:inline-flex; align-items:center; gap:6px; background:transparent;
+  border:1px solid rgba(255,68,68,0.3); border-radius:8px; color:var(--red);
+  font-size:12px; font-weight:700; padding:7px 12px; cursor:pointer;
+  font-family:'DM Sans',sans-serif; letter-spacing:0.3px; margin-top:12px; margin-right:8px;
+}
+.meal-warning-btn:active{opacity:0.7;}
+.meal-sub-btn{
+  display:inline-flex; align-items:center; gap:6px; background:transparent;
+  border:1px solid rgba(255,184,0,0.3); border-radius:8px; color:var(--gold);
+  font-size:12px; font-weight:700; padding:7px 12px; cursor:pointer;
+  font-family:'DM Sans',sans-serif; letter-spacing:0.3px; margin-top:12px;
+}
+.meal-sub-btn:active{opacity:0.7;}
+.meal-warning-body{
+  display:none; background:var(--red-dim); border-left:3px solid var(--red);
+  border-radius:0 8px 8px 0; padding:10px 13px; margin-top:8px;
+  font-size:13px; color:#FF9999; line-height:1.7;
+}
+.meal-sub-body{
+  display:none; background:var(--gold-dim); border-left:3px solid var(--gold);
+  border-radius:0 8px 8px 0; padding:10px 13px; margin-top:8px;
+  font-size:13px; color:#FFD566; line-height:1.7;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HOME ============ -->
+<div id="home" class="view active">
+  <div class="header">
+    <div class="header-label">✦ Protocolo Diário</div>
+    <h1>ISABEL <span>.</span></h1>
+    <div class="header-sub">Recomposição · Bypass · Atualizado Set/2026</div>
+  </div>
+
+  <div class="home-wrap">
+    <div class="home-q">Qual é o dia de hoje?</div>
+
+    <div class="home-card" onclick="showView('c1')">
+      <div class="home-card-emoji">🏋️</div>
+      <div>
+        <div class="home-card-title">Musculação</div>
+        <div class="home-card-sub">Treino às 06h · sem cardio</div>
+      </div>
+      <div class="home-card-arrow">›</div>
+    </div>
+
+    <div class="home-card" onclick="showView('c2')">
+      <div class="home-card-emoji">🏋️&#8202;🏃</div>
+      <div>
+        <div class="home-card-title">Musculação + Cardio</div>
+        <div class="home-card-sub">Musculação 06h + cardio na janela 14h–19h</div>
+      </div>
+      <div class="home-card-arrow">›</div>
+    </div>
+
+    <div class="home-card" onclick="showView('c3')">
+      <div class="home-card-emoji">🏃</div>
+      <div>
+        <div class="home-card-title">Cardio 06h</div>
+        <div class="home-card-sub">Corrida ou bike no lugar da musculação</div>
+      </div>
+      <div class="home-card-arrow">›</div>
+    </div>
+
+    <div class="home-card" onclick="showView('c4')">
+      <div class="home-card-emoji">🚴</div>
+      <div>
+        <div class="home-card-title">Cardio 14h+</div>
+        <div class="home-card-sub">Janela livre entre 14h e 19h</div>
+      </div>
+      <div class="home-card-arrow">›</div>
+    </div>
+
+    <div class="home-card" onclick="showView('c5')">
+      <div class="home-card-emoji">🧘</div>
+      <div>
+        <div class="home-card-title">Só Alongamento</div>
+        <div class="home-card-sub">Dia de descanso ativo · carbo reduzido</div>
+      </div>
+      <div class="home-card-arrow">›</div>
+    </div>
+
+    <div class="home-btns">
+      <div class="home-btn" onclick="showView('guias')">
+        <div class="home-btn-emoji">📋</div>
+        <div class="home-btn-label">Guias</div>
+      </div>
+      <div class="home-btn" onclick="showView('metas')">
+        <div class="home-btn-emoji">🎯</div>
+        <div class="home-btn-label">Metas</div>
+      </div>
+    </div>
+
+    <div class="home-stretch" onclick="showView('along')">
+      <span>🧘 Ver alongamento do dia — feito TODOS os dias</span>
+    </div>
+
+    <div class="footer-note">Volume máx 200–230g por refeição · Não beber durante as refeições · Água mín. 2L/dia</div>
+  </div>
+</div>
+
+<!-- ============ CENÁRIO 1 — SÓ MUSCULAÇÃO 06H ============ -->
+<div id="c1" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🏋️ Musculação</div>
+  </div>
+    <div class="inner-tabs" id="tabs-c1">
+    <button class="inner-tab active" onclick="showScenarioTab('c1','dieta',this)">🍽 Dieta</button>
+    <button class="inner-tab" onclick="showScenarioTab('c1','treino',this)">🏋️ Treino</button>
+    <button class="inner-tab" onclick="showScenarioTab('c1','stretch',this)">🧘 Alongamento</button>
+    <button class="inner-tab" onclick="showScenarioTab('c1','horario',this)">⏰ Horário</button>
+  </div>
+
+  <div class="section-pad">
+
+    <div class="scenario-tab-content" data-scenario="c1" data-tab="dieta">
+
+
+    <div class="note" style="border-radius:10px; margin-top:6px;">🏋️ <strong>Dia de musculação às 06h, sem cardio.</strong> Bloco fixo: acordar 04h30 · pré-treino 05h00 · pós-treino + suplementação 07h15.</div>
+
+    <div class="sec-title">Dieta <span class="n">7 refeições</span></div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:14px;">🥩 <strong>Meta proteica diária: 140-145g.</strong> Abaixo disso, recomposição corporal fica comprometida. Se precisar substituir uma refeição, proteína nunca cede — é o único macro inegociável. Bypass gástrico reduz absorção: qualidade da fonte importa mais que quantidade.</div>
+
+    <!-- 05h00 PRÉ-TREINO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">05H00</div>
+        <div class="card-name">Pré-treino leve</div>
+        <div class="card-meta">~20g prot<br>~200 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="alert">⚡ <strong>Sem gordura. Sem fibra pesada.</strong> Volume máx 150g. Objetivo: 25-30g carbo de rápida digestão + proteína leve. Treina em 1h — estômago precisa estar quase vazio.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 scoop whey + 1 banana pequena</div>
+        <div class="opt"><strong>B:</strong> 1 banana média + 2 claras de ovo mexidas + café preto</div>
+        <div class="opt"><strong>C:</strong> 1 iogurte desnatado + 1 col. aveia + café preto</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-pre')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-pre')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-pre">Gordura (azeite, pasta de amendoim, oleaginosas), leite integral, pão integral, fibra pesada, qualquer coisa frita ou muito temperada. Queijo, manteiga, abacate — fora. Tudo que retarda o esvaziamento gástrico prejudica o treino em 1h.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-pre">Mantenha carbo rápido + proteína leve. Troque banana por outra fruta simples (maçã, pera, melancia). Troque whey por claras. Nunca troque por algo gorduroso ou de digestão lenta antes do treino.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07h15 PÓS-TREINO + SUPLEMENTAÇÃO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">07H15</div>
+        <div class="card-name">Pós-treino <span class="badge-obrig">obrigatório</span></div>
+        <div class="card-meta">~28g prot<br>~270 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="info-inline">🏋️ Janela anabólica — prioridade máxima. Não pular. Suplementação matinal completa aqui.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana média</div>
+        <div class="opt"><strong>B:</strong> 3 claras + 1 gema + 1 fatia pão branco + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 150g frango + 1 fatia pão branco + tomate</div>
+        <div class="opt"><strong>D:</strong> 1 scoop whey + suco de uva natural 200ml</div>
+        <div class="opt"><strong>E:</strong> 150g atum + 1 banana + 4 biscoitos de arroz</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação matinal — 07h15</div>
+          <div class="supl-item">DUX Multivitamínico — 1 cápsula</div>
+          <div class="supl-item">Própolis verde — dose da embalagem</div>
+          <div class="supl-item">Creatina — 5g em água ou suco</div>
+          <div class="supl-item" style="color:var(--text3); font-size:13px;">ℹ️ Ômega 3, D3 e K2 foram para o almoço — absorção lipossolúvel exige gordura. Tomá-los aqui sem gordura desperdiça até 56% da dose.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-pos')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-pos')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-pos">Gordura neste momento atrasa a absorção da proteína e do carbo — sem azeite, sem oleaginosas, sem abacate aqui. Nada processado (salsicha, presunto, nuggets). Café puro sem comer antes.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-pos">Proteína + carbo sempre. Se não tiver whey, use ovos + fruta ou frango + arroz. O que não pode é trocar por só fruta ou só carboidrato sem proteína — a janela anabólica exige os dois.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10h30 LANCHE MANHÃ -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">10H30</div>
+        <div class="card-name">Lanche manhã</div>
+        <div class="card-meta">~12g prot<br>~175 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 2 castanhas-do-pará + 1–2 quadrados chocolate 70%+</div>
+        <div class="opt"><strong>B:</strong> 1 fruta + 1 col. pasta de amendoim integral</div>
+        <div class="opt"><strong>C:</strong> 1 fruta + 30g cottage</div>
+        <div class="opt"><strong>D:</strong> 1 fruta + 2 ovos cozidos</div>
+        <div class="opt"><strong>E:</strong> Tapioca pequena recheada com cottage</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-lanche-manha')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-lanche-manha')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-lanche-manha">Biscoito recheado, barra de cereal industrializada, suco de caixinha, iogurte com açúcar adicionado, pão de queijo, qualquer ultraprocessado. Parecem leves mas são pico de insulina sem nutriente.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-lanche-manha">Sempre fruta + fonte proteica. Se não tiver cottage ou ovo, use uma fatia de queijo branco ou 2 colheres de iogurte grego. Nunca fruta sozinha — o pico de açúcar sem proteína gera fome em 40 minutos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12h00 ALMOÇO + CÁLCIO 1ª + PROBIÓTICO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">12H00</div>
+        <div class="card-name">Almoço completo + Cálcio 1ª dose</div>
+        <div class="card-meta">~33g prot<br>~320 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Proteína — 110–120g cozida</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Terça e Quinta</span> FÍGADO BOVINO ACEBOLADO — melhor fonte de ferro</div>
+        <div class="opt">Patinho / Tilápia / Sobrecoxa sem pele / Atum / Frango peito</div>
+        <div class="alert">⚠️ <strong>Dias de fígado:</strong> mover a proteína para o jantar. O cálcio do almoço compete com a absorção de ferro.</div>
+        <div class="opt-label">Carboidrato — 60–70g</div>
+        <div class="opt">Arroz branco ou integral / Batata doce / Macarrão / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino + cenoura ralada / Abobrinha / Beterraba / Chuchu</div>
+        <div class="opt-label">Gordura</div>
+        <div class="opt">1 fio de azeite extravirgem</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 12h00</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 1ª dose (nunca junto com ferro)</div>
+          <div class="supl-item">Probiótico — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--text3); font-size:12px; padding-top:6px; border-top:1px solid var(--border); margin-top:4px;">LIPOSSOLÚVEIS — com o azeite do almoço:</div>
+          <div class="supl-item">Ômega 3 — 2 cápsulas</div>
+          <div class="supl-item">Cardo Mariano — 2 cápsulas (após 30 dias → 1 cápsula)</div>
+          <div class="supl-item">Vitamina D3 — 5 gotas (10.000 UI)</div>
+          <div class="supl-item">Vitamina K2 MK-7 — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ D3 + K2 + Cálcio juntos aqui é sinérgico: D3 aumenta absorção do cálcio, K2 direciona esse cálcio para os ossos. Tríade correta.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-almoco')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-almoco')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-almoco">Frituras, carnes processadas (linguiça, salsicha, hambúrguer industrializado), molhos prontos, maionese, farofa com gordura, refrigerante, suco industrializado. Feijão em excesso (volume — bypass). Sobremesa logo após.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-almoco">Proteína substitui proteína do mesmo grupo. Carbo substitui carbo. Nunca corte o carbo do almoço achando que emagrece mais rápido — você vai chegar no pré-treino sem glicogênio. Se não tiver arroz, use batata doce, mandioca ou macarrão integral.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15h00 LANCHE TARDE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">15H00</div>
+        <div class="card-name">Lanche tarde</div>
+        <div class="card-meta">~15g prot<br>~180 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 torradinha integral + patê de sardinha + 1 fruta</div>
+        <div class="opt"><strong>B:</strong> 1 ovo cozido + 50g atum + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 1 banana + 2 ovos cozidos</div>
+        <div class="opt"><strong>D:</strong> 30g cottage + 1 fruta + 4 amêndoas</div>
+        <div class="opt"><strong>E:</strong> 3 fatias peito de peru + 1 fruta + 2 castanhas</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-lanche-tarde')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-lanche-tarde')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-lanche-tarde">Salgadinho, biscoito recheado, tapioca com manteiga e queijo (volume e gordura), barra de proteína ultraprocessada com >10g de açúcar, qualquer coisa frita.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-lanche-tarde">Estrutura fruta + proteína é inegociável. Em último caso: 1 scoop de whey em água + 1 fruta. Nunca pule este lanche achando que vai economizar caloria — você chega no jantar faminta e exagera.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18h00 JANTAR -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">18H00</div>
+        <div class="card-name">Jantar</div>
+        <div class="card-meta">~32g prot<br>~300 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Proteína — 110–120g — digestão rápida</div>
+        <div class="opt">Tilápia / Frango grelhado / Atum / 3 claras + 1 gema / Carne moída magra</div>
+        <div class="opt-label">Carboidrato — 50–60g</div>
+        <div class="opt">Arroz branco / Batata doce / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino / Abobrinha / Chuchu / Brócolis</div>
+        <div class="note">📉 Neste cenário não há cardio — carbo do jantar fica em 50–60g.</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-jantar')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-jantar')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-jantar">Carbo pesado acima de 60g (arroz + batata junto, por exemplo), frituras, carne vermelha gordurosa (picanha, costela), massa com molho gorduroso, qualquer coisa muito temperada ou com sódio alto (retenção). Evitar brócolis e couve-flor à noite — gases e desconforto para dormir.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-jantar">Se não tiver peixe ou frango, use ovo + proteína magra. Nunca corte a proteína do jantar — é a última janela anabólica do dia. Se estiver sem apetite, mínimo 2 ovos + vegetais.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18h50 CÁLCIO 2ª DOSE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">18H50</div>
+        <div class="card-name">Cálcio 2ª dose</div>
+        <div class="card-meta">50min<br>após jantar</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 18h50</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 2ª dose (50min após o jantar)</div>
+        </div>
+        <div class="alert">🚫 Mínimo 2h antes do ZMA — o zinco compete pela mesma via de absorção do cálcio.</div>
+      </div>
+    </div>
+
+    <!-- 21h00 CEIA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">21H00</div>
+        <div class="card-name">Ceia leve (opcional)</div>
+        <div class="card-meta">~20g prot<br>~130 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">ℹ️ Dispensar se jantou depois das 19h30. ZMA e Melatonina fazem mesmo sem a ceia.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 3 ovos mexidos + 1 fatia queijo branco</div>
+        <div class="opt"><strong>B:</strong> 2 ovos cozidos + 3 fatias peito de peru</div>
+        <div class="opt"><strong>C:</strong> Omelete de 2 ovos + tomate</div>
+        <div class="opt"><strong>D:</strong> 100g frango desfiado + 1 fio de azeite</div>
+        <div class="opt"><strong>E:</strong> 2 ovos + 1 sardinha em água escorrida</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c1-ceia')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c1-ceia')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c1-ceia">Carbo aqui. Nenhum arroz, fruta, pão, tapioca, aveia. A ceia é exclusivamente proteína + gordura leve — o corpo está entrando em modo de recuperação e não precisa de carbo agora. Também evitar volume alto (bypass + sono = refluxo).</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c1-ceia">Qualquer fonte proteica leve serve: ovo, sardinha, frango desfiado, cottage. Se não tiver nada, 1 scoop de caseína em água é a melhor troca (proteína de liberação lenta ideal para noite). Whey em último caso.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22h00 ZMA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">22H00</div>
+        <div class="card-name">ZMA + Melatonina</div>
+        <div class="card-meta">—<br>—</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação noturna — 22h00</div>
+          <div class="supl-item">ZMA Power — 2 cápsulas (mín. 2h após o último cálcio)</div>
+          <div class="supl-item">Melatonina Duo — 1 cápsula</div>
+        </div>
+        <div class="note" style="margin-top:10px;">🌙 Dormir às 22h30.</div>
+      </div>
+    </div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c1" data-tab="treino" style="display:none">
+<div class="sec-title">Treino <span class="n">Divisão ABCDE</span></div>
+    <div class="note" style="border-radius:10px;">⚠️ Exercícios marcados com ⚠️ envolvem carga acima da cabeça ou amplitude extrema de ombro — Isabel tem histórico de armlock no ombro direito com limitação. Amplitude controlada, sem travar em cima.</div>
+    <div data-training="1" data-prefix="c1" style="margin-top:12px;"></div>
+
+    <div class="acc" style="margin-top:4px;">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">📅</div>
+        <div><div class="acc-title">Semana de Treino</div><div class="acc-sub">Grupos por dia · progressão</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <table class="week-table">
+          <tr><th>Dia</th><th>Treino 06h</th></tr>
+          <tr><td>SEG</td><td>A · Glúteo + Posterior de coxa</td></tr>
+          <tr><td>TER</td><td>B · Costas + Bíceps + Ombro</td></tr>
+          <tr><td>QUA</td><td>C · Quadríceps + Panturrilha</td></tr>
+          <tr><td>QUI</td><td>D · Glúteo + Posterior + Ombro</td></tr>
+          <tr><td>SEX</td><td>E · Peito + Tríceps + Ombro</td></tr>
+        </table>
+        <div class="note" style="margin-top:4px;">💪 <strong>Progressão:</strong> ao atingir o topo das reps com boa execução em todas as séries → aumenta carga. Descida sempre em 3 segundos.</div>
+      </div>
+    </div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c1" data-tab="stretch" style="display:none">
+<div class="sec-title">Alongamento <span class="n">todos os dias</span></div>
+    <div class="note" style="border-radius:10px;">🧘 Feito <strong>todos os dias</strong>, sem exceção. Dois protocolos alternados — Dia A e Dia B. Toque em cada alongamento para ver o movimento.</div>
+    <div data-stretch="1" style="margin-top:8px;"></div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c1" data-tab="horario" style="display:none">
+<div class="sec-title">Horário do dia</div>
+    <div class="schedule">
+      <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+      <div class="sch-item"><div class="sch-time">05:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Pré-treino leve</strong> — sem gordura, máx 150g</div></div>
+      <div class="sch-item"><div class="sch-time">06:00</div><div class="sch-dot hi"></div><div class="sch-event hi">🏋️ Treino de musculação</div></div>
+      <div class="sch-item"><div class="sch-time">07:15</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Pós-treino</strong> + DUX · Própolis · Creatina</div></div>
+      <div class="sch-item"><div class="sch-time">10:30</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche manhã</strong></div></div>
+      <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Almoço</strong> + Cálcio · Probiótico · Ômega 3 · D3 · K2</div></div>
+      <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche tarde</strong></div></div>
+      <div class="sch-item"><div class="sch-time">17:00</div><div class="sch-dot gold"></div><div class="sch-event gold">🧘 Alongamento 20–25 min</div></div>
+      <div class="sch-item"><div class="sch-time">18:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Jantar</strong> — carbo 50–60g</div></div>
+      <div class="sch-item"><div class="sch-time">18:50</div><div class="sch-dot blue"></div><div class="sch-event blue">Cálcio 2ª dose (50min após jantar)</div></div>
+      <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Ceia leve</strong> (opcional)</div></div>
+      <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot blue"></div><div class="sch-event blue">ZMA + Melatonina</div></div>
+      <div class="sch-item"><div class="sch-time">22:30</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+    </div>
+
+        </div>
+
+<button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin-bottom:20px;" onclick="goHome()">← Voltar para a Home</button>
+    </div>
+
+</div>
+
+<!-- ============ CENÁRIO 2 — MUSCULAÇÃO 06H + CARDIO 14H–19H ============ -->
+<div id="c2" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🏋️🏃 Musculação + Cardio</div>
+  </div>
+    <div class="inner-tabs" id="tabs-c2">
+    <button class="inner-tab active" onclick="showScenarioTab('c2','dieta',this)">🍽 Dieta</button>
+    <button class="inner-tab" onclick="showScenarioTab('c2','treino',this)">🏋️ Treino</button>
+    <button class="inner-tab" onclick="showScenarioTab('c2','stretch',this)">🧘 Alongamento</button>
+    <button class="inner-tab" onclick="showScenarioTab('c2','horario',this)">⏰ Horário</button>
+  </div>
+
+  <div class="section-pad">
+
+    <div class="scenario-tab-content" data-scenario="c2" data-tab="dieta">
+
+
+    <div class="note" style="border-radius:10px; margin-top:6px;">🏋️🏃 <strong>Musculação às 06h + cardio na tarde.</strong> Glicogênio é gasto duas vezes — o lanche da tarde vira pré-cardio e o jantar vira pós-cardio com carbo cheio.</div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:10px;">⚠️ <strong>Ferritina baixa (18,7 ng/mL) — leia antes de se frustrar:</strong> o ideal para mulher em treino com cardio é acima de 50 ng/mL. Você está em ~37% desse valor. Fadiga precoce, fôlego curto e recuperação lenta no cardio são sintomas esperados agora — não são falta de condicionamento. O Noripurum EV está corrigindo isso. Enquanto ferritina não normalizar, cardio será limitado fisiologicamente. Respeite o sinal do corpo.</div>
+
+    <div class="info-inline" style="border-radius:10px;">🚴 <strong>Cardio:</strong> corrida ou bike — janela livre entre 14h e 19h. Escolha conforme sua rotina sem fricção.</div>
+
+    <div class="sec-title">Dieta <span class="n">7 refeições</span></div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:14px;">🥩 <strong>Meta proteica diária: 140-145g.</strong> Abaixo disso, recomposição corporal fica comprometida. Se precisar substituir uma refeição, proteína nunca cede — é o único macro inegociável. Bypass gástrico reduz absorção: qualidade da fonte importa mais que quantidade.</div>
+
+    <!-- 05h00 PRÉ-TREINO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">05H00</div>
+        <div class="card-name">Pré-treino leve</div>
+        <div class="card-meta">~20g prot<br>~200 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="alert">⚡ <strong>Sem gordura. Sem fibra pesada.</strong> Volume máx 150g. Objetivo: 25-30g carbo de rápida digestão + proteína leve. Treina em 1h — estômago precisa estar quase vazio.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 scoop whey + 1 banana pequena</div>
+        <div class="opt"><strong>B:</strong> 1 banana média + 2 claras de ovo mexidas + café preto</div>
+        <div class="opt"><strong>C:</strong> 1 iogurte desnatado + 1 col. aveia + café preto</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-pre')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-pre')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-pre">Gordura (azeite, pasta de amendoim, oleaginosas), leite integral, pão integral, fibra pesada, qualquer coisa frita ou muito temperada. Queijo, manteiga, abacate — fora. Tudo que retarda o esvaziamento gástrico prejudica o treino em 1h.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-pre">Mantenha carbo rápido + proteína leve. Troque banana por outra fruta simples (maçã, pera, melancia). Troque whey por claras. Nunca troque por algo gorduroso ou de digestão lenta antes do treino.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07h15 PÓS-TREINO + SUPLEMENTAÇÃO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">07H15</div>
+        <div class="card-name">Pós-treino <span class="badge-obrig">obrigatório</span></div>
+        <div class="card-meta">~28g prot<br>~270 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="info-inline">🏋️ Janela anabólica — prioridade máxima. Suplementação matinal completa aqui.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana média</div>
+        <div class="opt"><strong>B:</strong> 3 claras + 1 gema + 1 fatia pão branco + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 150g frango + 1 fatia pão branco + tomate</div>
+        <div class="opt"><strong>D:</strong> 1 scoop whey + suco de uva natural 200ml</div>
+        <div class="opt"><strong>E:</strong> 150g atum + 1 banana + 4 biscoitos de arroz</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação matinal — 07h15</div>
+          <div class="supl-item">DUX Multivitamínico — 1 cápsula</div>
+          <div class="supl-item">Própolis verde — dose da embalagem</div>
+          <div class="supl-item">Creatina — 5g em água ou suco</div>
+          <div class="supl-item" style="color:var(--text3); font-size:13px;">ℹ️ Ômega 3, D3 e K2 foram para o almoço — absorção lipossolúvel exige gordura. Tomá-los aqui sem gordura desperdiça até 56% da dose.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-pos')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-pos')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-pos">Gordura neste momento atrasa a absorção da proteína e do carbo — sem azeite, sem oleaginosas, sem abacate aqui. Nada processado (salsicha, presunto, nuggets). Café puro sem comer antes.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-pos">Proteína + carbo sempre. Se não tiver whey, use ovos + fruta ou frango + arroz. O que não pode é trocar por só fruta ou só carboidrato sem proteína — a janela anabólica exige os dois.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10h30 LANCHE MANHÃ -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">10H30</div>
+        <div class="card-name">Lanche manhã</div>
+        <div class="card-meta">~12g prot<br>~175 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 2 castanhas-do-pará + 1–2 quadrados chocolate 70%+</div>
+        <div class="opt"><strong>B:</strong> 1 fruta + 1 col. pasta de amendoim integral</div>
+        <div class="opt"><strong>C:</strong> 1 fruta + 30g cottage</div>
+        <div class="opt"><strong>D:</strong> 1 fruta + 2 ovos cozidos</div>
+        <div class="opt"><strong>E:</strong> Tapioca pequena recheada com cottage</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-lanche-manha')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-lanche-manha')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-lanche-manha">Biscoito recheado, barra de cereal industrializada, suco de caixinha, iogurte com açúcar adicionado, pão de queijo, qualquer ultraprocessado. Parecem leves mas são pico de insulina sem nutriente.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-lanche-manha">Sempre fruta + fonte proteica. Se não tiver cottage ou ovo, use uma fatia de queijo branco ou 2 colheres de iogurte grego. Nunca fruta sozinha — o pico de açúcar sem proteína gera fome em 40 minutos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12h00 ALMOÇO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">12H00</div>
+        <div class="card-name">Almoço completo + Cálcio 1ª dose</div>
+        <div class="card-meta">~33g prot<br>~320 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Proteína — 110–120g cozida</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Terça e Quinta</span> FÍGADO BOVINO ACEBOLADO — melhor fonte de ferro</div>
+        <div class="opt">Patinho / Tilápia / Sobrecoxa sem pele / Atum / Frango peito</div>
+        <div class="alert">⚠️ <strong>Dias de fígado:</strong> mover a proteína para o jantar. O cálcio do almoço compete com o ferro.</div>
+        <div class="opt-label">Carboidrato — 60–70g</div>
+        <div class="opt">Arroz branco ou integral / Batata doce / Macarrão / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino + cenoura ralada / Abobrinha / Beterraba / Chuchu</div>
+        <div class="opt-label">Gordura</div>
+        <div class="opt">1 fio de azeite extravirgem</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 12h00</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 1ª dose (nunca junto com ferro)</div>
+          <div class="supl-item">Probiótico — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--text3); font-size:12px; padding-top:6px; border-top:1px solid var(--border); margin-top:4px;">LIPOSSOLÚVEIS — com o azeite do almoço:</div>
+          <div class="supl-item">Ômega 3 — 2 cápsulas</div>
+          <div class="supl-item">Cardo Mariano — 2 cápsulas (após 30 dias → 1 cápsula)</div>
+          <div class="supl-item">Vitamina D3 — 5 gotas (10.000 UI)</div>
+          <div class="supl-item">Vitamina K2 MK-7 — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ D3 + K2 + Cálcio juntos aqui é sinérgico: D3 aumenta absorção do cálcio, K2 direciona esse cálcio para os ossos. Tríade correta.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-almoco')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-almoco')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-almoco">Frituras, carnes processadas (linguiça, salsicha, hambúrguer industrializado), molhos prontos, maionese, farofa com gordura, refrigerante, suco industrializado. Feijão em excesso (volume — bypass). Sobremesa logo após.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-almoco">Proteína substitui proteína do mesmo grupo. Carbo substitui carbo. Nunca corte o carbo do almoço achando que emagrece mais rápido — você vai chegar no pré-treino sem glicogênio. Se não tiver arroz, use batata doce, mandioca ou macarrão integral.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15h00 PRÉ-CARDIO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time gold">15H00</div>
+        <div class="card-name">Lanche tarde → Pré-cardio</div>
+        <div class="card-meta">~15g prot<br>~180 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="alert">⚡ <strong>Sem gordura.</strong> Carbo + proteína leve, volume máx 150g. Ajusta o horário para 30–60min antes do cardio.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 1 fatia peito de peru</div>
+        <div class="opt"><strong>B:</strong> 4 biscoitos de arroz + 50g atum</div>
+        <div class="opt"><strong>C:</strong> 1 banana + 1 scoop whey em água</div>
+        <div class="opt"><strong>D:</strong> 1 torradinha integral + patê de sardinha</div>
+        <div class="opt"><strong>E:</strong> 1 iogurte desnatado + 1 fruta pequena</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-lanche-tarde')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-lanche-tarde')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-lanche-tarde">Gordura (retarda digestão e prejudica performance no cardio), fibra pesada, leite integral, qualquer coisa pesada. Não comer nada com >5g de gordura aqui.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-lanche-tarde">Carbo simples + proteína leve é a estrutura. Se não tiver as opções listadas: banana + whey em água, ou 4 biscoitos de arroz + 2 fatias de peito de peru. Nunca vá para o cardio em jejum — queda de glicose prejudica performance e aumenta catabolismo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDIO -->
+    <div class="sch-item" style="background:var(--blue-dim); border:1px solid rgba(0,212,255,.25); border-radius:12px; margin-bottom:10px;">
+      <div class="sch-time" style="color:var(--blue);">14–19h</div>
+      <div class="sch-dot blue"></div>
+      <div class="sch-event blue">🚴 Cardio — corrida ou bike · janela livre</div>
+    </div>
+
+    <!-- JANTAR PÓS-CARDIO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">18H00</div>
+        <div class="card-name">Jantar → Pós-cardio <span class="badge-obrig">carbo cheio</span></div>
+        <div class="card-meta">~32g prot<br>~340 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="info-inline">🔋 <strong>Carbo 70–80g obrigatório</strong> — repõe glicogênio gasto em dobro (musculação + cardio). Ajusta o horário conforme o fim do cardio.</div>
+        <div class="opt-label">Proteína — 110–120g — digestão rápida</div>
+        <div class="opt">Tilápia / Frango grelhado / Atum / 3 claras + 1 gema / Carne moída magra</div>
+        <div class="opt-label">Carboidrato — 70–80g</div>
+        <div class="opt">Arroz branco / Batata doce / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino / Abobrinha / Chuchu / Brócolis</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-jantar')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-jantar')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-jantar">Gordura em excesso (retarda absorção pós-esforço), ultraprocessados, refrigerante, álcool (cancela recuperação muscular completamente). Não pular o carbo achando que já "gastou o suficiente" — repor glicogênio aqui é obrigatório.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-jantar">Proteína de digestão rápida é prioridade (peixe, frango, ovos). Se não tiver carbo ideal, qualquer fonte serve: tapioca, batata, arroz branco. O que não pode é proteína sem carbo ou carbo sem proteína no pós-cardio.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÁLCIO 2ª DOSE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">+50min</div>
+        <div class="card-name">Cálcio 2ª dose</div>
+        <div class="card-meta">após<br>o jantar</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 50min após o jantar</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 2ª dose (50min após o jantar, independente do horário em que jantou)</div>
+        </div>
+        <div class="alert">🚫 Mínimo 2h antes do ZMA — o zinco compete pela mesma via do cálcio. Se o jantar for tarde, o ZMA desliza junto mantendo o intervalo.</div>
+      </div>
+    </div>
+
+    <!-- 21h00 CEIA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">21H00</div>
+        <div class="card-name">Ceia leve (opcional)</div>
+        <div class="card-meta">~20g prot<br>~130 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">ℹ️ Dispensar se jantou depois das 19h30.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 3 ovos mexidos + 1 fatia queijo branco</div>
+        <div class="opt"><strong>B:</strong> 2 ovos cozidos + 3 fatias peito de peru</div>
+        <div class="opt"><strong>C:</strong> Omelete de 2 ovos + tomate</div>
+        <div class="opt"><strong>D:</strong> 100g frango desfiado + 1 fio de azeite</div>
+        <div class="opt"><strong>E:</strong> 2 ovos + 1 sardinha em água escorrida</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c2-ceia')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c2-ceia')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c2-ceia">Carbo aqui. Nenhum arroz, fruta, pão, tapioca, aveia. A ceia é exclusivamente proteína + gordura leve — o corpo está entrando em modo de recuperação e não precisa de carbo agora. Também evitar volume alto (bypass + sono = refluxo).</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c2-ceia">Qualquer fonte proteica leve serve: ovo, sardinha, frango desfiado, cottage. Se não tiver nada, 1 scoop de caseína em água é a melhor troca (proteína de liberação lenta ideal para noite). Whey em último caso.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22h00 ZMA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">22H00</div>
+        <div class="card-name">ZMA + Melatonina</div>
+        <div class="card-meta">—<br>—</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação noturna — 22h00</div>
+          <div class="supl-item">ZMA Power — 2 cápsulas (mín. 2h após o último cálcio)</div>
+          <div class="supl-item">Melatonina Duo — 1 cápsula</div>
+        </div>
+        <div class="note" style="margin-top:10px;">🌙 Dormir às 22h30.</div>
+      </div>
+    </div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c2" data-tab="treino" style="display:none">
+<div class="sec-title">Treino <span class="n">Divisão ABCDE + cardio</span></div>
+    <div class="note" style="border-radius:10px;">⚠️ Exercícios marcados com ⚠️ envolvem carga acima da cabeça ou amplitude extrema de ombro — histórico de armlock no ombro direito. Amplitude controlada.</div>
+    <div class="info-inline" style="border-radius:10px;">🚴 <strong>Cardio</strong> na janela 14h–19h: corrida 30–40min ou bike 40–50min, intensidade moderada. Alongamento sempre logo após.</div>
+    <div data-training="2" data-prefix="c2" style="margin-top:12px;"></div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c2" data-tab="stretch" style="display:none">
+<div class="sec-title">Alongamento <span class="n">todos os dias</span></div>
+    <div class="note" style="border-radius:10px;">🧘 Feito <strong>todos os dias</strong>. Dois protocolos alternados — Dia A e Dia B. Logo após o cardio.</div>
+    <div data-stretch="2" style="margin-top:8px;"></div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c2" data-tab="horario" style="display:none">
+<div class="sec-title">Horário do dia</div>
+    <div class="schedule">
+      <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+      <div class="sch-item"><div class="sch-time">05:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Pré-treino leve</strong> — sem gordura</div></div>
+      <div class="sch-item"><div class="sch-time">06:00</div><div class="sch-dot hi"></div><div class="sch-event hi">🏋️ Treino de musculação</div></div>
+      <div class="sch-item"><div class="sch-time">07:15</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Pós-treino</strong> + DUX · Própolis · Creatina</div></div>
+      <div class="sch-item"><div class="sch-time">10:30</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche manhã</strong></div></div>
+      <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Almoço</strong> + Cálcio · Probiótico · Ômega 3 · D3 · K2</div></div>
+      <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot gold"></div><div class="sch-event gold">Pré-cardio — carbo + proteína leve, sem gordura</div></div>
+      <div class="sch-item"><div class="sch-time">14–19h</div><div class="sch-dot blue"></div><div class="sch-event blue">🚴 Cardio — janela livre (corrida ou bike)</div></div>
+      <div class="sch-item"><div class="sch-time">após</div><div class="sch-dot gold"></div><div class="sch-event gold">🧘 Alongamento 20–25 min (logo após o cardio)</div></div>
+      <div class="sch-item"><div class="sch-time">18:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Jantar pós-cardio</strong> — carbo 70–80g</div></div>
+      <div class="sch-item"><div class="sch-time">+50min</div><div class="sch-dot blue"></div><div class="sch-event blue">Cálcio 2ª dose (50min após jantar)</div></div>
+      <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Ceia leve</strong> (opcional)</div></div>
+      <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot blue"></div><div class="sch-event blue">ZMA + Melatonina</div></div>
+      <div class="sch-item"><div class="sch-time">22:30</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+    </div>
+
+        </div>
+
+<button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin-bottom:20px;" onclick="goHome()">← Voltar para a Home</button>
+    </div>
+
+</div>
+
+<!-- ============ CENÁRIO 3 — CARDIO 06H ============ -->
+<div id="c3" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🏃 Cardio 06h</div>
+  </div>
+    <div class="inner-tabs" id="tabs-c3">
+    <button class="inner-tab active" onclick="showScenarioTab('c3','dieta',this)">🍽 Dieta</button>
+    <button class="inner-tab" onclick="showScenarioTab('c3','stretch',this)">🧘 Alongamento</button>
+    <button class="inner-tab" onclick="showScenarioTab('c3','horario',this)">⏰ Horário</button>
+  </div>
+
+  <div class="section-pad">
+
+    <div class="scenario-tab-content" data-scenario="c3" data-tab="dieta">
+
+
+    <div class="note" style="border-radius:10px; margin-top:6px;">🏃 <strong>Cardio no lugar da musculação.</strong> O foco muda: repor glicogênio é prioridade, proteína evita catabolismo. Carbo total do dia é maior que no dia de descanso, menor que no dia duplo.</div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:10px;">⚠️ <strong>Ferritina baixa (18,7 ng/mL)</strong> — fadiga precoce e fôlego curto são esperados agora, não são falta de condicionamento. O Noripurum EV está corrigindo isso.</div>
+
+    <div class="sec-title">Dieta <span class="n">7 refeições</span></div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:14px;">🥩 <strong>Meta proteica diária: 140-145g.</strong> Proteína é o único macro inegociável.</div>
+
+    <!-- 05h00 PRÉ-CARDIO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">05H00</div>
+        <div class="card-name">Pré-cardio leve</div>
+        <div class="card-meta">~15g prot<br>~180 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="alert">⚡ <strong>Cardio em 1h — prioridade é carbo rápido.</strong> Proteína leve para evitar catabolismo. Zero gordura, zero fibra pesada. Volume máx 130g.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 banana média + 1 scoop whey em água</div>
+        <div class="opt"><strong>B:</strong> 1 banana média + 2 claras de ovo mexidas + café preto</div>
+        <div class="opt"><strong>C:</strong> 200ml suco de uva natural + 1 scoop whey em água</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-pre')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-pre')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-pre">Gordura de qualquer tipo, fibra pesada, pão integral, leite integral, oleaginosas. Qualquer coisa que retarde esvaziamento gástrico. Correr com estômago pesado causa cólica e queda de performance.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-pre">Troque banana por qualquer fruta simples de baixa fibra (melancia, uva, laranja). Troque whey por 2 claras. Nunca vá pro cardio em jejum — catabolismo muscular é real.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07h15 PÓS-CARDIO + SUPLEMENTAÇÃO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">07H15</div>
+        <div class="card-name">Pós-cardio <span class="badge-obrig">obrigatório</span></div>
+        <div class="card-meta">~28g prot<br>~280 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="info-inline">🏃 Cardio gasta glicogênio — carbo no pós é obrigatório, não opcional. Mais carbo aqui que no pós-musculação.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana média + 4 biscoitos de arroz</div>
+        <div class="opt"><strong>B:</strong> 3 claras + 1 gema + 1 fatia pão branco + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 150g frango desfiado + arroz branco 3 col. + tomate</div>
+        <div class="opt"><strong>D:</strong> 150g atum + 1 banana + 4 biscoitos de arroz</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação matinal — 07h15</div>
+          <div class="supl-item">DUX Multivitamínico — 1 cápsula</div>
+          <div class="supl-item">Própolis verde — dose da embalagem</div>
+          <div class="supl-item">Creatina — 5g em água ou suco</div>
+          <div class="supl-item" style="color:var(--text3); font-size:13px;">ℹ️ Ômega 3, D3 e K2 foram para o almoço — absorção lipossolúvel exige gordura. Tomá-los aqui sem gordura desperdiça até 56% da dose.</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ Creatina obrigatória mesmo sendo dia de cardio — saturação é diária. Pular um dia atrasa o protocolo inteiro.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-pos')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-pos')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-pos">Pular o carbo achando que já gastou suficiente. Comer só proteína no pós-cardio = recuperação incompleta. Gordura em excesso atrasa absorção. Nada processado.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-pos">Proteína rápida + carbo simples sempre. Se não tiver whey, use ovos + fruta + biscoito de arroz. O que não pode é proteína sem carbo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10h30 LANCHE MANHÃ -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">10H30</div>
+        <div class="card-name">Lanche manhã</div>
+        <div class="card-meta">~12g prot<br>~175 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 2 castanhas-do-pará + 1–2 quadrados chocolate 70%+</div>
+        <div class="opt"><strong>B:</strong> 1 fruta + 1 col. pasta de amendoim integral</div>
+        <div class="opt"><strong>C:</strong> 1 fruta + 30g cottage</div>
+        <div class="opt"><strong>D:</strong> 1 fruta + 2 ovos cozidos</div>
+        <div class="opt"><strong>E:</strong> Tapioca pequena recheada com cottage</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-lanche-manha')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-lanche-manha')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-lanche-manha">Biscoito recheado, barra de cereal industrializada, suco de caixinha, iogurte com açúcar adicionado, pão de queijo, qualquer ultraprocessado. Parecem leves mas são pico de insulina sem nutriente.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-lanche-manha">Sempre fruta + fonte proteica. Se não tiver cottage ou ovo, use uma fatia de queijo branco ou 2 colheres de iogurte grego. Nunca fruta sozinha — o pico de açúcar sem proteína gera fome em 40 minutos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12h00 ALMOÇO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">12H00</div>
+        <div class="card-name">Almoço completo + Cálcio 1ª dose</div>
+        <div class="card-meta">~33g prot<br>~320 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Proteína — 110–120g cozida</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Terça e Quinta</span> FÍGADO BOVINO ACEBOLADO — melhor fonte de ferro</div>
+        <div class="opt">Patinho / Tilápia / Sobrecoxa sem pele / Atum / Frango peito</div>
+        <div class="alert">⚠️ <strong>Dias de fígado:</strong> mover a proteína para o jantar. O cálcio do almoço compete com o ferro.</div>
+        <div class="opt-label">Carboidrato — 60–70g</div>
+        <div class="opt">Arroz branco ou integral / Batata doce / Macarrão / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino + cenoura ralada / Abobrinha / Beterraba / Chuchu</div>
+        <div class="opt-label">Gordura</div>
+        <div class="opt">1 fio de azeite extravirgem</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 12h00</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 1ª dose (nunca junto com ferro)</div>
+          <div class="supl-item">Probiótico — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--text3); font-size:12px; padding-top:6px; border-top:1px solid var(--border); margin-top:4px;">LIPOSSOLÚVEIS — com o azeite do almoço:</div>
+          <div class="supl-item">Ômega 3 — 2 cápsulas</div>
+          <div class="supl-item">Cardo Mariano — 2 cápsulas (após 30 dias → 1 cápsula)</div>
+          <div class="supl-item">Vitamina D3 — 5 gotas (10.000 UI)</div>
+          <div class="supl-item">Vitamina K2 MK-7 — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ D3 + K2 + Cálcio juntos aqui é sinérgico: D3 aumenta absorção do cálcio, K2 direciona esse cálcio para os ossos. Tríade correta.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-almoco')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-almoco')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-almoco">Frituras, carnes processadas (linguiça, salsicha, hambúrguer industrializado), molhos prontos, maionese, farofa com gordura, refrigerante, suco industrializado. Feijão em excesso (volume — bypass). Sobremesa logo após.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-almoco">Proteína substitui proteína do mesmo grupo. Carbo substitui carbo. Nunca corte o carbo do almoço achando que emagrece mais rápido — você vai chegar no pré-treino sem glicogênio. Se não tiver arroz, use batata doce, mandioca ou macarrão integral.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15h00 LANCHE TARDE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">15H00</div>
+        <div class="card-name">Lanche tarde</div>
+        <div class="card-meta">~15g prot<br>~180 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 torradinha integral + patê de sardinha + 1 fruta</div>
+        <div class="opt"><strong>B:</strong> 1 ovo cozido + 50g atum + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 1 banana + 2 ovos cozidos</div>
+        <div class="opt"><strong>D:</strong> 30g cottage + 1 fruta + 4 amêndoas</div>
+        <div class="opt"><strong>E:</strong> 3 fatias peito de peru + 1 fruta + 2 castanhas</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-lanche-tarde')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-lanche-tarde')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-lanche-tarde">Salgadinho, biscoito recheado, tapioca com manteiga e queijo (volume e gordura), barra de proteína ultraprocessada com >10g de açúcar, qualquer coisa frita.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-lanche-tarde">Estrutura fruta + proteína é inegociável. Em último caso: 1 scoop de whey em água + 1 fruta. Nunca pule este lanche achando que vai economizar caloria — você chega no jantar faminta e exagera.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18h00 JANTAR -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">18H00</div>
+        <div class="card-name">Jantar</div>
+        <div class="card-meta">~32g prot<br>~300 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">🏃 Cardio foi de manhã — glicogênio já reposto no pós-treino. Jantar com carbo moderado, não precisa ser alto.</div>
+        <div class="opt-label">Proteína — 110–120g — digestão rápida</div>
+        <div class="opt">Tilápia / Frango grelhado / Atum / 3 claras + 1 gema / Carne moída magra</div>
+        <div class="opt-label">Carboidrato — 55–65g</div>
+        <div class="opt">Arroz branco / Batata doce / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino / Abobrinha / Chuchu / Brócolis</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-jantar')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-jantar')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-jantar">Cortar carbo completamente achando que já treinou. Frituras. Embutidos. Brócolis e couve-flor à noite.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-jantar">Mesma lógica dos outros — proteína magra + carbo moderado + vegetal.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÁLCIO 2ª DOSE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">+50min</div>
+        <div class="card-name">Cálcio 2ª dose</div>
+        <div class="card-meta">após<br>o jantar</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 50min após o jantar</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 2ª dose (50min após o jantar)</div>
+        </div>
+        <div class="alert">🚫 Mínimo 2h antes do ZMA — o zinco compete pela mesma via do cálcio.</div>
+      </div>
+    </div>
+
+    <!-- 21h00 CEIA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">21H00</div>
+        <div class="card-name">Ceia leve (opcional)</div>
+        <div class="card-meta">~20g prot<br>~130 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">ℹ️ Dispensar se jantou depois das 19h30.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 3 ovos mexidos + 1 fatia queijo branco</div>
+        <div class="opt"><strong>B:</strong> 2 ovos cozidos + 3 fatias peito de peru</div>
+        <div class="opt"><strong>C:</strong> Omelete de 2 ovos + tomate</div>
+        <div class="opt"><strong>D:</strong> 100g frango desfiado + 1 fio de azeite</div>
+        <div class="opt"><strong>E:</strong> 2 ovos + 1 sardinha em água escorrida</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c3-ceia')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c3-ceia')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c3-ceia">Carbo aqui. Nenhum arroz, fruta, pão, tapioca, aveia. A ceia é exclusivamente proteína + gordura leve — o corpo está entrando em modo de recuperação e não precisa de carbo agora. Também evitar volume alto (bypass + sono = refluxo).</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c3-ceia">Qualquer fonte proteica leve serve: ovo, sardinha, frango desfiado, cottage. Se não tiver nada, 1 scoop de caseína em água é a melhor troca (proteína de liberação lenta ideal para noite). Whey em último caso.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22h00 ZMA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">22H00</div>
+        <div class="card-name">ZMA + Melatonina</div>
+        <div class="card-meta">—<br>—</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação noturna — 22h00</div>
+          <div class="supl-item">ZMA Power — 2 cápsulas (mín. 2h após o último cálcio)</div>
+          <div class="supl-item">Melatonina Duo — 1 cápsula</div>
+        </div>
+        <div class="note" style="margin-top:10px;">🌙 Dormir às 22h30.</div>
+      </div>
+    </div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c3" data-tab="stretch" style="display:none">
+<div class="sec-title">Alongamento <span class="n">todos os dias</span></div>
+    <div class="note" style="border-radius:10px;">🧘 Feito <strong>todos os dias</strong>, sem exceção. Dois protocolos alternados — Dia A e Dia B. Logo após o cardio da manhã.</div>
+    <div data-stretch="3" style="margin-top:8px;"></div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c3" data-tab="horario" style="display:none">
+<div class="sec-title">Horário do dia</div>
+    <div class="schedule">
+      <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+      <div class="sch-item"><div class="sch-time">05:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Pré-cardio leve</strong> — carbo rápido, sem gordura</div></div>
+      <div class="sch-item"><div class="sch-time">06:00</div><div class="sch-dot blue"></div><div class="sch-event blue">🏃 Cardio: corrida ou bike 30–40 min</div></div>
+      <div class="sch-item"><div class="sch-time">07:15</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Pós-cardio</strong> + DUX · Própolis · Creatina</div></div>
+      <div class="sch-item"><div class="sch-time">10:30</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche manhã</strong></div></div>
+      <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Almoço</strong> + Cálcio · Probiótico · Ômega 3 · D3 · K2</div></div>
+      <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche tarde</strong></div></div>
+      <div class="sch-item"><div class="sch-time">17:00</div><div class="sch-dot gold"></div><div class="sch-event gold">🧘 Alongamento 20–25 min</div></div>
+      <div class="sch-item"><div class="sch-time">18:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Jantar</strong> — carbo 55–65g</div></div>
+      <div class="sch-item"><div class="sch-time">+50min</div><div class="sch-dot blue"></div><div class="sch-event blue">Cálcio 2ª dose (50min após jantar)</div></div>
+      <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Ceia leve</strong> (opcional)</div></div>
+      <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot blue"></div><div class="sch-event blue">ZMA + Melatonina</div></div>
+      <div class="sch-item"><div class="sch-time">22:30</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+    </div>
+
+        </div>
+
+<button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin-bottom:20px;" onclick="goHome()">← Voltar para a Home</button>
+    </div>
+
+</div>
+
+<!-- ============ CENÁRIO 4 — CARDIO 14H+ ============ -->
+<div id="c4" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🚴 Cardio 14h+</div>
+  </div>
+    <div class="inner-tabs" id="tabs-c4">
+    <button class="inner-tab active" onclick="showScenarioTab('c4','dieta',this)">🍽 Dieta</button>
+    <button class="inner-tab" onclick="showScenarioTab('c4','stretch',this)">🧘 Alongamento</button>
+    <button class="inner-tab" onclick="showScenarioTab('c4','horario',this)">⏰ Horário</button>
+  </div>
+
+  <div class="section-pad">
+
+    <div class="scenario-tab-content" data-scenario="c4" data-tab="dieta">
+
+
+    <div class="note" style="border-radius:10px; margin-top:6px;">🚴 <strong>Sem musculação hoje.</strong> Acordar continua 04h30, mas a manhã é mais leve. Café + suplementação às 07h00.</div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:10px;">⚠️ <strong>Ferritina baixa (18,7 ng/mL) — leia antes de se frustrar:</strong> o ideal para mulher em treino com cardio é acima de 50 ng/mL. Você está em ~37% desse valor. Fadiga precoce, fôlego curto e recuperação lenta no cardio são sintomas esperados agora — não são falta de condicionamento. O Noripurum EV está corrigindo isso. Enquanto ferritina não normalizar, cardio será limitado fisiologicamente. Respeite o sinal do corpo.</div>
+    <div class="info-inline" style="border-radius:10px;">🚴 <strong>Cardio:</strong> corrida ou bike — janela livre entre 14h e 19h. Escolha conforme sua rotina sem fricção.</div>
+
+    <div class="sec-title">Dieta <span class="n">6–7 refeições</span></div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:14px;">🥩 <strong>Meta proteica diária: 140-145g.</strong> Abaixo disso, recomposição corporal fica comprometida. Se precisar substituir uma refeição, proteína nunca cede — é o único macro inegociável. Bypass gástrico reduz absorção: qualidade da fonte importa mais que quantidade.</div>
+
+    <!-- 07h00 CAFÉ + SUPLEMENTAÇÃO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">07H00</div>
+        <div class="card-name">Café da manhã <span class="badge-obrig">suplementação</span></div>
+        <div class="card-meta">~25g prot<br>~220 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana média</div>
+        <div class="opt"><strong>B:</strong> 3 claras + 1 gema + 1 fatia pão integral + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 150g iogurte grego + 1 col. aveia + 1 fruta</div>
+        <div class="opt"><strong>D:</strong> 2 ovos + 1 fatia pão integral + tomate</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação matinal — 07h00</div>
+          <div class="supl-item">DUX Multivitamínico — 1 cápsula</div>
+          <div class="supl-item">Própolis verde — dose da embalagem</div>
+          <div class="supl-item">Creatina — 5g em água ou suco</div>
+          <div class="supl-item" style="color:var(--text3); font-size:13px;">ℹ️ Ômega 3, D3 e K2 foram para o almoço — absorção lipossolúvel exige gordura. Tomá-los aqui sem gordura desperdiça até 56% da dose.</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ Creatina obrigatória mesmo sem treino — saturação é diária. Pular um dia atrasa o protocolo inteiro.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10h30 LANCHE MANHÃ -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">10H30</div>
+        <div class="card-name">Lanche manhã</div>
+        <div class="card-meta">~12g prot<br>~175 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 2 castanhas-do-pará + 1–2 quadrados chocolate 70%+</div>
+        <div class="opt"><strong>B:</strong> 1 fruta + 1 col. pasta de amendoim integral</div>
+        <div class="opt"><strong>C:</strong> 1 fruta + 30g cottage</div>
+        <div class="opt"><strong>D:</strong> 1 fruta + 2 ovos cozidos</div>
+        <div class="opt"><strong>E:</strong> Tapioca pequena recheada com cottage</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c4-lanche-manha')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c4-lanche-manha')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c4-lanche-manha">Biscoito recheado, barra de cereal industrializada, suco de caixinha, iogurte com açúcar adicionado, pão de queijo, qualquer ultraprocessado. Parecem leves mas são pico de insulina sem nutriente.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c4-lanche-manha">Sempre fruta + fonte proteica. Se não tiver cottage ou ovo, use uma fatia de queijo branco ou 2 colheres de iogurte grego. Nunca fruta sozinha — o pico de açúcar sem proteína gera fome em 40 minutos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12h00 ALMOÇO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">12H00</div>
+        <div class="card-name">Almoço completo + Cálcio 1ª dose</div>
+        <div class="card-meta">~33g prot<br>~320 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Proteína — 110–120g cozida</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Terça e Quinta</span> FÍGADO BOVINO ACEBOLADO — melhor fonte de ferro</div>
+        <div class="opt">Patinho / Tilápia / Sobrecoxa sem pele / Atum / Frango peito</div>
+        <div class="alert">⚠️ <strong>Dias de fígado:</strong> mover a proteína para o jantar. O cálcio do almoço compete com o ferro.</div>
+        <div class="opt-label">Carboidrato — 60–70g</div>
+        <div class="opt">Arroz branco ou integral / Batata doce / Macarrão / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino + cenoura ralada / Abobrinha / Beterraba / Chuchu</div>
+        <div class="opt-label">Gordura</div>
+        <div class="opt">1 fio de azeite extravirgem</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 12h00</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 1ª dose (nunca junto com ferro)</div>
+          <div class="supl-item">Probiótico — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--text3); font-size:12px; padding-top:6px; border-top:1px solid var(--border); margin-top:4px;">LIPOSSOLÚVEIS — com o azeite do almoço:</div>
+          <div class="supl-item">Ômega 3 — 2 cápsulas</div>
+          <div class="supl-item">Cardo Mariano — 2 cápsulas (após 30 dias → 1 cápsula)</div>
+          <div class="supl-item">Vitamina D3 — 5 gotas (10.000 UI)</div>
+          <div class="supl-item">Vitamina K2 MK-7 — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ D3 + K2 + Cálcio juntos aqui é sinérgico: D3 aumenta absorção do cálcio, K2 direciona esse cálcio para os ossos. Tríade correta.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c4-almoco')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c4-almoco')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c4-almoco">Frituras, carnes processadas (linguiça, salsicha, hambúrguer industrializado), molhos prontos, maionese, farofa com gordura, refrigerante, suco industrializado. Feijão em excesso (volume — bypass). Sobremesa logo após.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c4-almoco">Proteína substitui proteína do mesmo grupo. Carbo substitui carbo. Nunca corte o carbo do almoço achando que emagrece mais rápido — você vai chegar no pré-treino sem glicogênio. Se não tiver arroz, use batata doce, mandioca ou macarrão integral.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15h00 PRÉ-CARDIO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time gold">15H00</div>
+        <div class="card-name">Lanche tarde → Pré-cardio</div>
+        <div class="card-meta">~15g prot<br>~180 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="alert">⚡ <strong>Sem gordura.</strong> Carbo + proteína leve. Ajusta o horário para 30–60min antes do cardio.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 1 fatia peito de peru</div>
+        <div class="opt"><strong>B:</strong> 4 biscoitos de arroz + 50g atum</div>
+        <div class="opt"><strong>C:</strong> 1 banana + 1 scoop whey em água</div>
+        <div class="opt"><strong>D:</strong> 1 torradinha integral + patê de sardinha</div>
+        <div class="opt"><strong>E:</strong> 1 iogurte desnatado + 1 fruta pequena</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c4-lanche-tarde')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c4-lanche-tarde')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c4-lanche-tarde">Gordura (retarda digestão e prejudica performance no cardio), fibra pesada, leite integral, qualquer coisa pesada. Não comer nada com >5g de gordura aqui.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c4-lanche-tarde">Carbo simples + proteína leve é a estrutura. Se não tiver as opções listadas: banana + whey em água, ou 4 biscoitos de arroz + 2 fatias de peito de peru. Nunca vá para o cardio em jejum — queda de glicose prejudica performance e aumenta catabolismo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARDIO -->
+    <div class="sch-item" style="background:var(--blue-dim); border:1px solid rgba(0,212,255,.25); border-radius:12px; margin-bottom:10px;">
+      <div class="sch-time" style="color:var(--blue);">14–19h</div>
+      <div class="sch-dot blue"></div>
+      <div class="sch-event blue">🚴 Cardio — corrida ou bike · janela livre</div>
+    </div>
+
+    <!-- JANTAR PÓS-CARDIO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">18H00</div>
+        <div class="card-name">Jantar → Pós-cardio <span class="badge-obrig">carbo cheio</span></div>
+        <div class="card-meta">~32g prot<br>~340 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="info-inline">🔋 <strong>Carbo 70–80g</strong> — repõe o glicogênio gasto no cardio. Ajusta o horário conforme o fim do cardio.</div>
+        <div class="opt-label">Proteína — 110–120g — digestão rápida</div>
+        <div class="opt">Tilápia / Frango grelhado / Atum / 3 claras + 1 gema / Carne moída magra</div>
+        <div class="opt-label">Carboidrato — 70–80g</div>
+        <div class="opt">Arroz branco / Batata doce / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino / Abobrinha / Chuchu / Brócolis</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c4-jantar')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c4-jantar')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c4-jantar">Gordura em excesso (retarda absorção pós-esforço), ultraprocessados, refrigerante, álcool (cancela recuperação muscular completamente). Não pular o carbo achando que já "gastou o suficiente" — repor glicogênio aqui é obrigatório.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c4-jantar">Proteína de digestão rápida é prioridade (peixe, frango, ovos). Se não tiver carbo ideal, qualquer fonte serve: tapioca, batata, arroz branco. O que não pode é proteína sem carbo ou carbo sem proteína no pós-cardio.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÁLCIO 2ª DOSE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">+50min</div>
+        <div class="card-name">Cálcio 2ª dose</div>
+        <div class="card-meta">após<br>o jantar</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 50min após o jantar</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 2ª dose (50min após o jantar)</div>
+        </div>
+        <div class="alert">🚫 Mínimo 2h antes do ZMA — o zinco compete pela mesma via do cálcio.</div>
+      </div>
+    </div>
+
+    <!-- 21h00 CEIA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">21H00</div>
+        <div class="card-name">Ceia leve (opcional)</div>
+        <div class="card-meta">~20g prot<br>~130 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">ℹ️ Dispensar se jantou depois das 19h30.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 3 ovos mexidos + 1 fatia queijo branco</div>
+        <div class="opt"><strong>B:</strong> 2 ovos cozidos + 3 fatias peito de peru</div>
+        <div class="opt"><strong>C:</strong> Omelete de 2 ovos + tomate</div>
+        <div class="opt"><strong>D:</strong> 100g frango desfiado + 1 fio de azeite</div>
+        <div class="opt"><strong>E:</strong> 2 ovos + 1 sardinha em água escorrida</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c4-ceia')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c4-ceia')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c4-ceia">Carbo aqui. Nenhum arroz, fruta, pão, tapioca, aveia. A ceia é exclusivamente proteína + gordura leve — o corpo está entrando em modo de recuperação e não precisa de carbo agora. Também evitar volume alto (bypass + sono = refluxo).</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c4-ceia">Qualquer fonte proteica leve serve: ovo, sardinha, frango desfiado, cottage. Se não tiver nada, 1 scoop de caseína em água é a melhor troca (proteína de liberação lenta ideal para noite). Whey em último caso.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22h00 ZMA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">22H00</div>
+        <div class="card-name">ZMA + Melatonina</div>
+        <div class="card-meta">—<br>—</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação noturna — 22h00</div>
+          <div class="supl-item">ZMA Power — 2 cápsulas (mín. 2h após o último cálcio)</div>
+          <div class="supl-item">Melatonina Duo — 1 cápsula</div>
+        </div>
+        <div class="note" style="margin-top:10px;">🌙 Dormir às 22h30.</div>
+      </div>
+    </div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c4" data-tab="stretch" style="display:none">
+<div class="sec-title">Alongamento <span class="n">todos os dias</span></div>
+    <div class="note" style="border-radius:10px;">🧘 Feito <strong>todos os dias</strong>. Dois protocolos alternados — Dia A e Dia B. Logo após o cardio.</div>
+    <div data-stretch="4" style="margin-top:8px;"></div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c4" data-tab="horario" style="display:none">
+<div class="sec-title">Treino <span class="n">só cardio</span></div>
+    <div class="info-block">
+      <div class="info-title">🚴 Cardio do dia</div>
+      <div class="info-row"><span class="info-row-icon">🕑</span>Janela livre entre 14h e 19h — escolha o horário que encaixa na rotina sem fricção</div>
+      <div class="info-row"><span class="info-row-icon">🏃</span>Corrida 30–40 min em ritmo confortável (consegue conversar) OU bike 40–50 min</div>
+      <div class="info-row"><span class="info-row-icon">🫀</span>Intensidade moderada — o objetivo é gasto calórico e saúde cardiovascular, não exaustão</div>
+      <div class="info-row"><span class="info-row-icon">🧘</span>Alongamento 20–25 min logo após — nunca pular</div>
+      <div class="info-row"><span class="info-row-icon">🚫</span>Sem musculação neste cenário</div>
+    </div>
+
+    <div class="sec-title">Horário do dia</div>
+    <div class="schedule">
+      <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+      <div class="sch-item"><div class="sch-time">07:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Café da manhã</strong> + DUX · Própolis · Creatina</div></div>
+      <div class="sch-item"><div class="sch-time">10:30</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche manhã</strong></div></div>
+      <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Almoço</strong> + Cálcio · Probiótico · Ômega 3 · D3 · K2</div></div>
+      <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot gold"></div><div class="sch-event gold">Pré-cardio — carbo + proteína leve, sem gordura</div></div>
+      <div class="sch-item"><div class="sch-time">14–19h</div><div class="sch-dot blue"></div><div class="sch-event blue">🚴 Cardio — janela livre (corrida ou bike)</div></div>
+      <div class="sch-item"><div class="sch-time">após</div><div class="sch-dot gold"></div><div class="sch-event gold">🧘 Alongamento 20–25 min (logo após o cardio)</div></div>
+      <div class="sch-item"><div class="sch-time">18:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Jantar pós-cardio</strong> — carbo 70–80g</div></div>
+      <div class="sch-item"><div class="sch-time">+50min</div><div class="sch-dot blue"></div><div class="sch-event blue">Cálcio 2ª dose (50min após jantar)</div></div>
+      <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Ceia leve</strong> (opcional)</div></div>
+      <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot blue"></div><div class="sch-event blue">ZMA + Melatonina</div></div>
+      <div class="sch-item"><div class="sch-time">22:30</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+    </div>
+
+        </div>
+
+<button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin-bottom:20px;" onclick="goHome()">← Voltar para a Home</button>
+    </div>
+
+</div>
+
+<!-- ============ CENÁRIO 5 — SÓ ALONGAMENTO ============ -->
+<div id="c5" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🧘 Só Alongamento</div>
+  </div>
+    <div class="inner-tabs" id="tabs-c5">
+    <button class="inner-tab active" onclick="showScenarioTab('c5','dieta',this)">🍽 Dieta</button>
+    <button class="inner-tab" onclick="showScenarioTab('c5','stretch',this)">🧘 Alongamento</button>
+    <button class="inner-tab" onclick="showScenarioTab('c5','horario',this)">⏰ Horário</button>
+  </div>
+
+  <div class="section-pad">
+
+    <div class="scenario-tab-content" data-scenario="c5" data-tab="dieta">
+
+
+    <div class="note" style="border-radius:10px; margin-top:6px;">🧘 <strong>Dia de descanso ativo.</strong> Sem musculação e sem cardio. Carbo do almoço e do jantar reduzido para 40–50g — o gasto é menor hoje.</div>
+
+    <div class="sec-title">Dieta <span class="n">6–7 refeições · carbo reduzido</span></div>
+
+    <div class="alert" style="border-radius:10px; margin-bottom:14px;">🥩 <strong>Meta proteica diária: 140-145g.</strong> Abaixo disso, recomposição corporal fica comprometida. Se precisar substituir uma refeição, proteína nunca cede — é o único macro inegociável. Bypass gástrico reduz absorção: qualidade da fonte importa mais que quantidade.</div>
+
+    <!-- 07h00 CAFÉ + SUPLEMENTAÇÃO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">07H00</div>
+        <div class="card-name">Café da manhã <span class="badge-obrig">suplementação</span></div>
+        <div class="card-meta">~25g prot<br>~220 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana média</div>
+        <div class="opt"><strong>B:</strong> 3 claras + 1 gema + 1 fatia pão integral + 1 fruta</div>
+        <div class="opt"><strong>C:</strong> 150g iogurte grego + 1 col. aveia + 1 fruta</div>
+        <div class="opt"><strong>D:</strong> 2 ovos + 1 fatia pão integral + tomate</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação matinal — 07h00</div>
+          <div class="supl-item">DUX Multivitamínico — 1 cápsula</div>
+          <div class="supl-item">Própolis verde — dose da embalagem</div>
+          <div class="supl-item">Creatina — 5g em água ou suco</div>
+          <div class="supl-item" style="color:var(--text3); font-size:13px;">ℹ️ Ômega 3, D3 e K2 foram para o almoço — absorção lipossolúvel exige gordura. Tomá-los aqui sem gordura desperdiça até 56% da dose.</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ Creatina obrigatória mesmo sem treino — saturação é diária. Pular um dia atrasa o protocolo inteiro.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10h30 LANCHE MANHÃ -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">10H30</div>
+        <div class="card-name">Lanche manhã</div>
+        <div class="card-meta">~12g prot<br>~175 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 fruta + 2 castanhas-do-pará + 1–2 quadrados chocolate 70%+</div>
+        <div class="opt"><strong>B:</strong> 1 fruta + 1 col. pasta de amendoim integral</div>
+        <div class="opt"><strong>C:</strong> 1 fruta + 30g cottage</div>
+        <div class="opt"><strong>D:</strong> 1 fruta + 2 ovos cozidos</div>
+        <div class="opt"><strong>E:</strong> Tapioca pequena recheada com cottage</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c5-lanche-manha')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c5-lanche-manha')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c5-lanche-manha">Biscoito recheado, barra de cereal industrializada, suco de caixinha, iogurte com açúcar adicionado, pão de queijo, qualquer ultraprocessado. Parecem leves mas são pico de insulina sem nutriente.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c5-lanche-manha">Sempre fruta + fonte proteica. Se não tiver cottage ou ovo, use uma fatia de queijo branco ou 2 colheres de iogurte grego. Nunca fruta sozinha — o pico de açúcar sem proteína gera fome em 40 minutos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12h00 ALMOÇO CARBO REDUZIDO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">12H00</div>
+        <div class="card-name">Almoço + Cálcio 1ª dose <span class="badge-obrig">carbo -</span></div>
+        <div class="card-meta">~33g prot<br>~280 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">📉 <strong>Dia de descanso:</strong> carbo reduzido para 40–50g. Proteína e vegetais mantidos.</div>
+        <div class="opt-label">Proteína — 110–120g cozida</div>
+        <div class="opt obrig"><span class="badge-obrig">⭐ Terça e Quinta</span> FÍGADO BOVINO ACEBOLADO — melhor fonte de ferro</div>
+        <div class="opt">Patinho / Tilápia / Sobrecoxa sem pele / Atum / Frango peito</div>
+        <div class="alert">⚠️ <strong>Dias de fígado:</strong> mover a proteína para o jantar. O cálcio do almoço compete com o ferro.</div>
+        <div class="opt-label">Carboidrato — 40–50g</div>
+        <div class="opt">Arroz branco ou integral / Batata doce / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino + cenoura ralada / Abobrinha / Beterraba / Chuchu</div>
+        <div class="opt-label">Gordura</div>
+        <div class="opt">1 fio de azeite extravirgem</div>
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 12h00</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 1ª dose (nunca junto com ferro)</div>
+          <div class="supl-item">Probiótico — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--text3); font-size:12px; padding-top:6px; border-top:1px solid var(--border); margin-top:4px;">LIPOSSOLÚVEIS — com o azeite do almoço:</div>
+          <div class="supl-item">Ômega 3 — 2 cápsulas</div>
+          <div class="supl-item">Cardo Mariano — 2 cápsulas (após 30 dias → 1 cápsula)</div>
+          <div class="supl-item">Vitamina D3 — 5 gotas (10.000 UI)</div>
+          <div class="supl-item">Vitamina K2 MK-7 — 1 cápsula</div>
+          <div class="supl-item" style="color:var(--gold); font-size:13px;">⚠️ D3 + K2 + Cálcio juntos aqui é sinérgico: D3 aumenta absorção do cálcio, K2 direciona esse cálcio para os ossos. Tríade correta.</div>
+        </div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c5-almoco')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c5-almoco')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c5-almoco">Frituras, carnes processadas (linguiça, salsicha, hambúrguer industrializado), molhos prontos, maionese, farofa com gordura, refrigerante, suco industrializado. Feijão em excesso (volume — bypass). Sobremesa logo após.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c5-almoco">Proteína substitui proteína do mesmo grupo. Carbo substitui carbo. Nunca corte o carbo do almoço achando que emagrece mais rápido — você vai chegar no pré-treino sem glicogênio. Se não tiver arroz, use batata doce, mandioca ou macarrão integral.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15h00 LANCHE TARDE LEVE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">15H00</div>
+        <div class="card-name">Lanche tarde leve</div>
+        <div class="card-meta">~15g prot<br>~150 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 1 ovo cozido + 50g atum + pepino</div>
+        <div class="opt"><strong>B:</strong> 30g cottage + 1 fruta pequena</div>
+        <div class="opt"><strong>C:</strong> 3 fatias peito de peru + tomate</div>
+        <div class="opt"><strong>D:</strong> 1 iogurte grego desnatado + canela</div>
+        <div class="opt"><strong>E:</strong> 2 ovos cozidos + 4 amêndoas</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c5-lanche-tarde')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c5-lanche-tarde')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c5-lanche-tarde">Salgadinho, biscoito recheado, tapioca com manteiga e queijo (volume e gordura), barra de proteína ultraprocessada com >10g de açúcar, qualquer coisa frita.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c5-lanche-tarde">Estrutura fruta + proteína é inegociável. Em último caso: 1 scoop de whey em água + 1 fruta. Nunca pule este lanche achando que vai economizar caloria — você chega no jantar faminta e exagera.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18h30 JANTAR CARBO REDUZIDO -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">18H30</div>
+        <div class="card-name">Jantar <span class="badge-obrig">carbo -</span></div>
+        <div class="card-meta">~32g prot<br>~260 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">📉 Carbo reduzido para 40–50g — dia de descanso.</div>
+        <div class="opt-label">Proteína — 110–120g — digestão rápida</div>
+        <div class="opt">Tilápia / Frango grelhado / Atum / 3 claras + 1 gema / Carne moída magra</div>
+        <div class="opt-label">Carboidrato — 40–50g</div>
+        <div class="opt">Arroz branco / Batata doce / Batata inglesa</div>
+        <div class="opt-label">Vegetais — à vontade</div>
+        <div class="opt">Tomate + pepino / Abobrinha / Chuchu</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c5-jantar')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c5-jantar')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c5-jantar">Carbo acima de 50g (dia de descanso — gasto energético baixo), frituras, alimentos com alto sódio (retenção hídrica), brócolis e couve-flor à noite.</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c5-jantar">Mesma lógica dos outros dias — proteína magra + carbo moderado + vegetal. Se não tiver apetite real, um caldo de frango com legumes + 2 ovos resolve sem exagerar em volume.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÁLCIO 2ª DOSE -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">19H20</div>
+        <div class="card-name">Cálcio 2ª dose</div>
+        <div class="card-meta">50min<br>após jantar</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação — 19h20 (50min após o jantar)</div>
+          <div class="supl-item">Citrato de cálcio 600mg — 2ª dose</div>
+        </div>
+        <div class="alert">🚫 Mínimo 2h antes do ZMA — o zinco compete pela mesma via do cálcio.</div>
+      </div>
+    </div>
+
+    <!-- 21h00 CEIA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time">21H00</div>
+        <div class="card-name">Ceia leve (opcional)</div>
+        <div class="card-meta">~20g prot<br>~130 kcal</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="note">ℹ️ Dispensar se jantou depois das 19h30.</div>
+        <div class="opt-label">Escolha 1 opção</div>
+        <div class="opt"><strong>A:</strong> 3 ovos mexidos + 1 fatia queijo branco</div>
+        <div class="opt"><strong>B:</strong> 2 ovos cozidos + 3 fatias peito de peru</div>
+        <div class="opt"><strong>C:</strong> Omelete de 2 ovos + tomate</div>
+        <div class="opt"><strong>D:</strong> 100g frango desfiado + 1 fio de azeite</div>
+        <div class="opt"><strong>E:</strong> 2 ovos + 1 sardinha em água escorrida</div>
+        <div style="margin-top:4px;" onclick="event.stopPropagation()">
+          <button type="button" class="meal-warning-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'warn-c5-ceia')">🚫 O que evitar <span class="arrow">▼</span></button>
+          <button type="button" class="meal-sub-btn" onclick="event.stopPropagation(); toggleMealExtra(this,'sub-c5-ceia')">↗ Se for substituir <span class="arrow">▼</span></button>
+          <div class="meal-warning-body" style="display:none" id="warn-c5-ceia">Carbo aqui. Nenhum arroz, fruta, pão, tapioca, aveia. A ceia é exclusivamente proteína + gordura leve — o corpo está entrando em modo de recuperação e não precisa de carbo agora. Também evitar volume alto (bypass + sono = refluxo).</div>
+          <div class="meal-sub-body" style="display:none" id="sub-c5-ceia">Qualquer fonte proteica leve serve: ovo, sardinha, frango desfiado, cottage. Se não tiver nada, 1 scoop de caseína em água é a melhor troca (proteína de liberação lenta ideal para noite). Whey em último caso.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 22h00 ZMA -->
+    <div class="card" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-time blue">22H00</div>
+        <div class="card-name">ZMA + Melatonina</div>
+        <div class="card-meta">—<br>—</div>
+        <div class="card-chevron">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="supl">
+          <div class="supl-title">💊 Suplementação noturna — 22h00</div>
+          <div class="supl-item">ZMA Power — 2 cápsulas (mín. 2h após o último cálcio)</div>
+          <div class="supl-item">Melatonina Duo — 1 cápsula</div>
+        </div>
+        <div class="note" style="margin-top:10px;">🌙 Dormir às 22h30.</div>
+      </div>
+    </div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c5" data-tab="stretch" style="display:none">
+<div class="sec-title">Treino <span class="n">descanso</span></div>
+    <div class="info-block">
+      <div class="info-title">🧘 Sem treino de força ou cardio</div>
+      <div class="info-row"><span class="info-row-icon">💤</span>Dia de recuperação — o alongamento abaixo é a única atividade programada</div>
+      <div class="info-row"><span class="info-row-icon">🚶</span>Caminhada leve opcional, sem estrutura de horário</div>
+      <div class="info-row"><span class="info-row-icon">📉</span>Carbo reduzido no almoço e jantar (40–50g) por causa do gasto menor</div>
+    </div>
+
+    <div class="sec-title">Alongamento <span class="n">todos os dias</span></div>
+    <div class="note" style="border-radius:10px;">🧘 Feito <strong>todos os dias</strong>, e hoje é o foco do dia. Dois protocolos alternados — Dia A e Dia B. Duração ~20–25 min. Horário livre.</div>
+    <div data-stretch="5" style="margin-top:8px;"></div>
+
+        </div>
+
+    <div class="scenario-tab-content" data-scenario="c5" data-tab="horario" style="display:none">
+<div class="sec-title">Horário do dia</div>
+    <div class="schedule">
+      <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+      <div class="sch-item"><div class="sch-time">07:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Café da manhã</strong> + DUX · Própolis · Creatina</div></div>
+      <div class="sch-item"><div class="sch-time">livre</div><div class="sch-dot gold"></div><div class="sch-event gold">🧘 Alongamento 20–25 min (Dia A ou B)</div></div>
+      <div class="sch-item"><div class="sch-time">10:30</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche manhã</strong></div></div>
+      <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Almoço</strong> + Cálcio · Probiótico · Ômega 3 · D3 · K2 — carbo 40–50g</div></div>
+      <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Lanche tarde leve</strong></div></div>
+      <div class="sch-item"><div class="sch-time">18:30</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Jantar</strong> — carbo 40–50g</div></div>
+      <div class="sch-item"><div class="sch-time">19:20</div><div class="sch-dot blue"></div><div class="sch-event blue">Cálcio 2ª dose (50min após jantar)</div></div>
+      <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Ceia leve</strong> (opcional)</div></div>
+      <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot blue"></div><div class="sch-event blue">ZMA + Melatonina</div></div>
+      <div class="sch-item"><div class="sch-time">22:30</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+    </div>
+
+        </div>
+
+<button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin-bottom:20px;" onclick="goHome()">← Voltar para a Home</button>
+    </div>
+
+</div>
+
+
+
+<!-- ============ ALONGAMENTO (standalone) ============ -->
+<div id="along" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🧘 Alongamento do dia</div>
+  </div>
+  <div class="section-pad">
+    <div class="note" style="border-radius:10px; margin-top:6px;">🧘 <strong>Feito todos os dias, sem exceção</strong> — independente do cenário escolhido. Dois protocolos alternados: faz o Dia A, no dia seguinte o Dia B, e assim por diante. Cada protocolo leva ~20–25 min. Toque em cada alongamento para ver o movimento, o músculo trabalhado, o tempo de sustentação e como executar.</div>
+    <div data-stretch="home" style="margin-top:10px;"></div>
+    <button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin:8px 0 20px;" onclick="goHome()">← Voltar para a Home</button>
+  </div>
+</div>
+
+<!-- ============ METAS ============ -->
+<div id="metas" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">🎯 Metas</div>
+  </div>
+  <div class="section-pad">
+
+    <div class="note" style="border-radius:10px; margin-top:6px;">📍 Medidas do ponto zero registradas em <strong>05/06/2026</strong>. Execução iniciada em <strong>04/08/2026</strong>. Peso não é o indicador primário — priorize as medidas e as fotos.</div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">📌</div>
+        <div><div class="acc-title">Ponto Zero</div><div class="acc-sub">Baseline — 05/Jun/2026</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="goals-grid">
+          <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">66kg</div></div>
+          <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">86cm</div></div>
+          <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">102cm</div></div>
+          <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">93cm</div></div>
+          <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">57cm</div></div>
+          <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">28cm</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">🎯</div>
+        <div><div class="acc-title">Meta 30 dias</div><div class="acc-sub">03/Set/2026</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="goals-grid">
+          <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">64–65kg</div><div class="goal-target">↓ 1–2kg</div></div>
+          <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">83–85cm</div><div class="goal-target">↓ 1–3cm</div></div>
+          <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">102–104cm</div><div class="goal-target">mantém / ↑</div></div>
+          <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">89–92cm</div><div class="goal-target">↓ 1–4cm</div></div>
+          <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">57–58cm</div><div class="goal-target">mantém / ↑</div></div>
+          <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">27–28cm</div><div class="goal-target">define</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">📈</div>
+        <div><div class="acc-title">Meta 60 dias</div><div class="acc-sub">03/Out/2026</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="goals-grid">
+          <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">63–65kg</div><div class="goal-target">↓ 1–3kg</div></div>
+          <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">81–84cm</div><div class="goal-target">↓ 2–5cm</div></div>
+          <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">103–105cm</div><div class="goal-target">↑ glúteo</div></div>
+          <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">86–90cm</div><div class="goal-target">↓ 3–7cm</div></div>
+          <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">58–59cm</div><div class="goal-target">↑ massa</div></div>
+          <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">27–28cm</div><div class="goal-target">define</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">🏆</div>
+        <div><div class="acc-title">Meta 90 dias</div><div class="acc-sub">02/Nov/2026</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="goals-grid">
+          <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">62–64kg</div><div class="goal-target">↓ 2–4kg</div></div>
+          <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">79–82cm</div><div class="goal-target">↓ 4–7cm</div></div>
+          <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">104–106cm</div><div class="goal-target">↑ glúteo</div></div>
+          <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">84–88cm</div><div class="goal-target">↓ 5–9cm</div></div>
+          <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">59–61cm</div><div class="goal-target">↑ massa</div></div>
+          <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">27–28cm</div><div class="goal-target">definido</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">✅</div>
+        <div><div class="acc-title">Check-in Semanal</div><div class="acc-sub">Toda sexta, em jejum</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="info-block">
+          <div class="info-row"><span class="info-row-icon">⚖️</span>Peso</div>
+          <div class="info-row"><span class="info-row-icon">📸</span>Foto frente, lado e costas — mesma roupa e mesma luz</div>
+          <div class="info-row"><span class="info-row-icon">💬</span>Como está se sentindo — energia, sono, libido, humor</div>
+          <div class="info-row"><span class="info-row-icon">📏</span>Medidas a cada 2 semanas</div>
+          <div class="info-row"><span class="info-row-icon">🔄</span>Revisão completa do plano a cada 4 semanas</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin:8px 0 20px;" onclick="goHome()">← Voltar para a Home</button>
+  </div>
+</div>
+
+<!-- ============ GUIAS ============ -->
+<div id="guias" class="view">
+  <div class="topbar">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <div class="topbar-title">📋 Guias</div>
+  </div>
+  <div class="section-pad">
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">🔄</div>
+        <div><div class="acc-title">Substituições Alimentares</div><div class="acc-sub">Regra de ouro + Calculadora</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px; padding-left:0; padding-right:0;">
+        <div class="alert" style="border-radius:10px; margin:0 0 14px;">⚡ Proteína substitui proteína. Carbo substitui carbo. Gordura substitui gordura. NUNCA troca entre grupos.</div>
+
+        <div class="calc-wrap">
+          <div class="calc-title">🧮 Calculadora de Substituição</div>
+          <div style="font-size:12.5px; color:var(--text3); margin-bottom:14px; line-height:1.6;">Conversão por equivalência de proteína, carboidrato ou gordura total — valores por 100g (TACO / USDA).</div>
+          <div class="calc-group">
+            <div class="calc-label">Grupo alimentar</div>
+            <select class="calc-select" id="calc-grupo" onchange="resetCalc()">
+              <option value="">Selecione o grupo...</option>
+              <option value="carbo">Carboidratos</option>
+              <option value="proteina">Proteínas</option>
+              <option value="gordura">Gorduras</option>
+              <option value="frutas">Frutas</option>
+              <option value="verduras">Verduras e Legumes</option>
+              <option value="laticinios">Leite e Derivados</option>
+              <option value="fibras">Fibras</option>
+            </select>
+          </div>
+          <div class="calc-group" id="calc-food-wrap" style="display:none;">
+            <div class="calc-label">Alimento de origem</div>
+            <select class="calc-select" id="calc-alimento" onchange="showQty()"></select>
+          </div>
+          <div class="calc-group" id="calc-qty-wrap" style="display:none;">
+            <div class="calc-label">Quantidade em gramas</div>
+            <input type="number" class="calc-qty" id="calc-quantidade" placeholder="Ex: 100" min="1" step="1">
+          </div>
+          <div id="calc-btn-wrap" style="display:none;">
+            <button class="calc-btn" onclick="calcSubst()">Ver substituições</button>
+          </div>
+          <div class="calc-results" id="calc-results"></div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🍚</div><div><div class="acc-title" style="font-size:16px;">Carboidratos</div><div class="acc-sub">Arroz, batata, pão e mais</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <table class="tbl">
+              <tr><th>Alimento</th><th>Carbo/100g</th></tr>
+              <tr><td>Arroz branco cozido</td><td>28g</td></tr>
+              <tr><td>Arroz integral cozido</td><td>23g</td></tr>
+              <tr><td>Batata doce cozida</td><td>18g</td></tr>
+              <tr><td>Batata inglesa cozida</td><td>15g</td></tr>
+              <tr><td>Macarrão cozido</td><td>25g</td></tr>
+              <tr><td>Mandioca cozida</td><td>30g</td></tr>
+              <tr><td>Pão integral</td><td>41g</td></tr>
+              <tr><td>Tapioca (goma)</td><td>85g</td></tr>
+              <tr><td>Aveia em flocos</td><td>66g</td></tr>
+              <tr><td>Biscoito de arroz</td><td>82g</td></tr>
+              <tr><td>Cuscuz de milho cozido</td><td>22g</td></tr>
+              <tr><td>Inhame cozido</td><td>24g</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🍗</div><div><div class="acc-title" style="font-size:16px;">Proteínas</div><div class="acc-sub">Carnes, ovos, laticínios e whey</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <table class="tbl">
+              <tr><th>Alimento</th><th>Proteína/100g</th></tr>
+              <tr><td>Frango peito grelhado</td><td>32g</td></tr>
+              <tr><td>Tilápia grelhada</td><td>26g</td></tr>
+              <tr><td>Atum em água (escorrido)</td><td>29g</td></tr>
+              <tr><td>Patinho grelhado</td><td>30g</td></tr>
+              <tr><td>Carne moída magra grelhada</td><td>26g</td></tr>
+              <tr><td>Fígado bovino grelhado</td><td>29g</td></tr>
+              <tr><td>Sardinha em água</td><td>25g</td></tr>
+              <tr><td>Salmão grelhado</td><td>25g</td></tr>
+              <tr><td>Sobrecoxa sem pele grelhada</td><td>27g</td></tr>
+              <tr><td>Ovo inteiro cozido</td><td>13g</td></tr>
+              <tr><td>Clara de ovo cozida</td><td>11g</td></tr>
+              <tr><td>Whey protein (pó)</td><td>80g</td></tr>
+              <tr><td>Albumina (pó)</td><td>75g</td></tr>
+              <tr><td>Cottage</td><td>12g</td></tr>
+              <tr><td>Iogurte grego desnatado</td><td>10g</td></tr>
+              <tr><td>Queijo branco (minas frescal)</td><td>17g</td></tr>
+              <tr><td>Peito de peru fatiado</td><td>18g</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🥑</div><div><div class="acc-title" style="font-size:16px;">Gorduras</div><div class="acc-sub">Azeite, oleaginosas, abacate</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <table class="tbl">
+              <tr><th>Alimento</th><th>Gordura/100g</th></tr>
+              <tr><td>Azeite extravirgem</td><td>100g</td></tr>
+              <tr><td>Abacate</td><td>15g</td></tr>
+              <tr><td>Pasta de amendoim integral</td><td>50g</td></tr>
+              <tr><td>Amêndoas</td><td>50g</td></tr>
+              <tr><td>Castanha-do-pará</td><td>66g</td></tr>
+              <tr><td>Nozes</td><td>65g</td></tr>
+              <tr><td>Amendoim torrado</td><td>46g</td></tr>
+              <tr><td>Chia</td><td>31g</td></tr>
+              <tr><td>Linhaça</td><td>42g</td></tr>
+              <tr><td>Coco seco ralado</td><td>62g</td></tr>
+              <tr><td>Azeite de coco</td><td>100g</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🍎</div><div><div class="acc-title" style="font-size:16px;">Frutas</div><div class="acc-sub">Conversão por carboidrato</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <table class="tbl">
+              <tr><th>Alimento</th><th>Carbo/100g</th></tr>
+              <tr><td>Banana prata</td><td>23g</td></tr>
+              <tr><td>Maçã</td><td>15g</td></tr>
+              <tr><td>Pera</td><td>13g</td></tr>
+              <tr><td>Laranja</td><td>12g</td></tr>
+              <tr><td>Uva</td><td>17g</td></tr>
+              <tr><td>Mamão papaia</td><td>10g</td></tr>
+              <tr><td>Manga</td><td>15g</td></tr>
+              <tr><td>Melancia</td><td>8g</td></tr>
+              <tr><td>Morango</td><td>8g</td></tr>
+              <tr><td>Abacaxi</td><td>13g</td></tr>
+              <tr><td>Kiwi</td><td>15g</td></tr>
+              <tr><td>Mirtilo (blueberry)</td><td>14g</td></tr>
+              <tr><td>Framboesa</td><td>12g</td></tr>
+              <tr><td>Maracujá (polpa)</td><td>13g</td></tr>
+              <tr><td>Goiaba</td><td>14g</td></tr>
+              <tr><td>Caju</td><td>11g</td></tr>
+              <tr><td>Pêssego</td><td>10g</td></tr>
+              <tr><td>Ameixa fresca</td><td>11g</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🥦</div><div><div class="acc-title" style="font-size:16px;">Verduras e Legumes</div><div class="acc-sub">Troca livre — conversão por kcal</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <div class="note" style="margin-bottom:12px;">🥦 Verduras e legumes têm troca muito flexível — na prática podem ser trocados livremente sem impacto no plano.</div>
+            <table class="tbl">
+              <tr><th>Alimento</th><th>kcal/100g</th></tr>
+              <tr><td>Abobrinha cozida</td><td>15 kcal</td></tr>
+              <tr><td>Brócolis cozido</td><td>25 kcal</td></tr>
+              <tr><td>Cenoura crua</td><td>35 kcal</td></tr>
+              <tr><td>Pepino cru</td><td>13 kcal</td></tr>
+              <tr><td>Tomate cru</td><td>15 kcal</td></tr>
+              <tr><td>Alface</td><td>13 kcal</td></tr>
+              <tr><td>Espinafre cozido</td><td>20 kcal</td></tr>
+              <tr><td>Couve-flor cozida</td><td>22 kcal</td></tr>
+              <tr><td>Chuchu cozido</td><td>19 kcal</td></tr>
+              <tr><td>Beterraba cozida</td><td>44 kcal</td></tr>
+              <tr><td>Berinjela cozida</td><td>24 kcal</td></tr>
+              <tr><td>Quiabo cozido</td><td>33 kcal</td></tr>
+              <tr><td>Vagem cozida</td><td>28 kcal</td></tr>
+              <tr><td>Repolho cru</td><td>25 kcal</td></tr>
+              <tr><td>Couve cozida</td><td>26 kcal</td></tr>
+              <tr><td>Pimentão cru</td><td>27 kcal</td></tr>
+              <tr><td>Ervilha cozida</td><td>69 kcal</td></tr>
+              <tr><td>Milho verde cozido</td><td>86 kcal</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🥛</div><div><div class="acc-title" style="font-size:16px;">Leite e Derivados</div><div class="acc-sub">Conversão por proteína</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <table class="tbl">
+              <tr><th>Alimento</th><th>Proteína/100g</th></tr>
+              <tr><td>Leite desnatado</td><td>3,4g</td></tr>
+              <tr><td>Leite semidesnatado</td><td>3,3g</td></tr>
+              <tr><td>Leite sem lactose desnatado</td><td>3,4g</td></tr>
+              <tr><td>Leite de aveia</td><td>1,0g</td></tr>
+              <tr><td>Leite de amêndoas s/ açúcar</td><td>1,1g</td></tr>
+              <tr><td>Leite de coco</td><td>2,3g</td></tr>
+              <tr><td>Iogurte natural desnatado</td><td>5,0g</td></tr>
+              <tr><td>Iogurte grego desnatado</td><td>10,0g</td></tr>
+              <tr><td>Cottage</td><td>12,0g</td></tr>
+              <tr><td>Ricota</td><td>11,0g</td></tr>
+              <tr><td>Queijo minas frescal</td><td>17,0g</td></tr>
+              <tr><td>Queijo branco light</td><td>19,0g</td></tr>
+              <tr><td>Whey isolado (referência)</td><td>90,0g</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="acc">
+          <div class="acc-header" onclick="toggleAccEl(this)"><div class="acc-icon">🌾</div><div><div class="acc-title" style="font-size:16px;">Fibras</div><div class="acc-sub">Conversão por grama de fibra</div></div><div class="acc-chevron">▼</div></div>
+          <div class="acc-body" style="padding-top:12px;">
+            <table class="tbl">
+              <tr><th>Alimento</th><th>Fibra/100g</th></tr>
+              <tr><td>Chia</td><td>34g</td></tr>
+              <tr><td>Linhaça</td><td>27g</td></tr>
+              <tr><td>Aveia em flocos</td><td>10g</td></tr>
+              <tr><td>Farelo de aveia</td><td>15g</td></tr>
+              <tr><td>Psyllium</td><td>70g</td></tr>
+              <tr><td>Farinha de amêndoas</td><td>11g</td></tr>
+              <tr><td>Lentilha cozida</td><td>8g</td></tr>
+              <tr><td>Grão-de-bico cozido</td><td>8g</td></tr>
+              <tr><td>Feijão cozido</td><td>6g</td></tr>
+              <tr><td>Brócolis cozido</td><td>3g</td></tr>
+              <tr><td>Couve-flor cozida</td><td>2g</td></tr>
+              <tr><td>Cenoura crua</td><td>3g</td></tr>
+              <tr><td>Maçã com casca</td><td>2g</td></tr>
+              <tr><td>Pera com casca</td><td>3g</td></tr>
+              <tr><td>Arroz integral cozido</td><td>2g</td></tr>
+              <tr><td>Pão integral</td><td>6g</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">⚡</div>
+        <div><div class="acc-title">Regras Invioláveis</div><div class="acc-sub">Siga sempre, sem exceção</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="info-block">
+          <div class="info-row"><span class="info-row-icon">📏</span>Volume máximo por refeição: 200–230g (bypass gástrico)</div>
+          <div class="info-row"><span class="info-row-icon">⏱</span>Não beber durante as refeições — esperar 30 min após comer</div>
+          <div class="info-row"><span class="info-row-icon">🥩</span>Mastigar bem, especialmente as carnes</div>
+          <div class="info-row"><span class="info-row-icon">💧</span>Água mínimo 2L/dia — nunca durante as refeições</div>
+          <div class="info-row"><span class="info-row-icon">🚫</span>Ferro e cálcio sempre separados — mínimo 2 horas</div>
+          <div class="info-row"><span class="info-row-icon">🌙</span>ZMA precisa de no mínimo 2h de intervalo do cálcio — o zinco compete pela mesma via</div>
+          <div class="info-row"><span class="info-row-icon">⚡</span>Pré-treino sem gordura — pesa no estômago e prejudica a performance</div>
+          <div class="info-row"><span class="info-row-icon">💊</span>ZMA e Melatonina todos os dias — mesmo sem a ceia</div>
+          <div class="info-row"><span class="info-row-icon">🧘</span>Alongamento todos os dias — independente do cenário</div>
+          <div class="info-row"><span class="info-row-icon">🥦</span>Vegetais: troca livre à vontade — sem restrição</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">🥛</div>
+        <div><div class="acc-title">Leite — Sensibilidade</div><div class="acc-sub">Opções de substituição</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="info-block">
+          <div class="info-row"><span class="info-row-icon">🥛</span><strong>Sem lactose</strong> — melhor substituto 1:1</div>
+          <div class="info-row"><span class="info-row-icon">🌾</span><strong>Aveia</strong> — cremoso, bom para shakes. Tem carbo.</div>
+          <div class="info-row"><span class="info-row-icon">🌰</span><strong>Amêndoas sem açúcar</strong> — leve, baixo carbo</div>
+          <div class="info-row"><span class="info-row-icon">🥥</span><strong>Coco</strong> — mais gorduroso, usar com moderação</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAccEl(this)">
+        <div class="acc-icon">🥚</div>
+        <div><div class="acc-title">Albumina — Como Preparar</div><div class="acc-sub">3 formas práticas</div></div>
+        <div class="acc-chevron">▼</div>
+      </div>
+      <div class="acc-body" style="padding-top:14px;">
+        <div class="info-block">
+          <div class="info-row"><span class="info-row-icon">🥤</span><strong>Shake gelado:</strong> albumina + leite vegetal + banana congelada + canela — liquidificador</div>
+          <div class="info-row"><span class="info-row-icon">🍮</span><strong>Pudim proteico:</strong> albumina + leite + adoçante + baunilha — geladeira 1h</div>
+          <div class="info-row"><span class="info-row-icon">🥞</span><strong>Panqueca:</strong> albumina + 1 ovo + 1 col. aveia + canela — frigideira antiaderente</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="back-btn" style="width:100%; justify-content:center; padding:14px; margin:8px 0 20px;" onclick="goHome()">← Voltar para a Home</button>
+  </div>
+</div>
+
+
+
+<!-- ============ MODAL EXERCÍCIO ============ -->
+<div class="modal-overlay" id="ex-modal" onclick="closeOverlay(event,'ex-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="exm-name">—</div>
+      <div class="modal-close" onclick="closeModal('ex-modal')">✕</div>
+    </div>
+    <div class="modal-section" id="exm-warn-wrap" style="display:none;">
+      <div class="alert" id="exm-warn">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Foco</div>
+      <div class="modal-content" id="exm-focus">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Volume</div>
+      <div class="modal-content" id="exm-volume">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Séries detalhadas</div>
+      <div id="exm-sets"></div>
+    </div>
+    <div class="modal-section" id="exm-tip-wrap">
+      <div class="modal-label">💡 Execução</div>
+      <div class="modal-content" id="exm-tip">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL ALONGAMENTO ============ -->
+<div class="modal-overlay" id="st-modal" onclick="closeOverlay(event,'st-modal')">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="stm-name">—</div>
+      <div class="modal-close" onclick="closeModal('st-modal')">✕</div>
+    </div>
+    <div class="stretch-svg" id="stm-svg"></div>
+    <div class="modal-section" id="stm-warn-wrap" style="display:none;">
+      <div class="alert" id="stm-warn">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Músculo trabalhado</div>
+      <div class="modal-content" id="stm-muscle">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Tempo de sustentação</div>
+      <div class="modal-content" id="stm-hold">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">💡 Como executar</div>
+      <div class="modal-content" id="stm-howto">—</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ NAVEGAÇÃO ============ */
+function showView(id){
+  var target = document.getElementById(id) || document.getElementById('home');
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  target.classList.add('active');
+  resetScenarioTabs(target.id);
+  closeModal('ex-modal'); closeModal('st-modal');
+  window.scrollTo(0,0);
+  if(location.hash !== '#'+target.id){ history.pushState({v:target.id}, '', '#'+target.id); }
+}
+function goHome(){ showView('home'); }
+
+/* ============ ABAS INTERNAS DE CENÁRIO ============ */
+function showScenarioTab(scenarioId, tabName, btnEl){
+  document.querySelectorAll('.scenario-tab-content[data-scenario="'+scenarioId+'"]')
+    .forEach(function(el){ el.style.display = 'none'; });
+  var target = document.querySelector('.scenario-tab-content[data-scenario="'+scenarioId+'"][data-tab="'+tabName+'"]');
+  if(target){ target.style.display = 'block'; }
+  document.querySelectorAll('#tabs-'+scenarioId+' .inner-tab')
+    .forEach(function(b){ b.classList.remove('active'); });
+  if(btnEl){ btnEl.classList.add('active'); }
+  window.scrollTo(0,0);
+}
+function resetScenarioTabs(scenarioId){
+  var bar = document.getElementById('tabs-'+scenarioId);
+  if(!bar) return;
+  document.querySelectorAll('.scenario-tab-content[data-scenario="'+scenarioId+'"]')
+    .forEach(function(el){
+      el.style.display = el.getAttribute('data-tab') === 'dieta' ? 'block' : 'none';
+    });
+  var btns = bar.querySelectorAll('.inner-tab');
+  btns.forEach(function(b, i){ b.classList.toggle('active', i === 0); });
+}
+window.addEventListener('popstate', function(){
+  var id = (location.hash || '#home').slice(1);
+  var target = document.getElementById(id) || document.getElementById('home');
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  target.classList.add('active');
+  resetScenarioTabs(target.id);
+  window.scrollTo(0,0);
+});
+
+/* ============ TOGGLES ============ */
+function toggleCard(el){ el.classList.toggle('open'); }
+function toggleAcc(id){ var el=document.getElementById(id); if(el) el.classList.toggle('open'); }
+function toggleAccEl(headerEl){ headerEl.parentElement.classList.toggle('open'); }
+function toggleMealExtra(btnEl, bodyId){
+  var body = document.getElementById(bodyId);
+  if(!body) return;
+  var isOpen = body.style.display === 'block';
+  body.style.display = isOpen ? 'none' : 'block';
+  var arrow = btnEl.querySelector('.arrow');
+  if(arrow) arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+/* ============ MODAIS ============ */
+function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(id){ var m=document.getElementById(id); if(m) m.classList.remove('open'); document.body.style.overflow=''; }
+function closeOverlay(e,id){ if(e.target.id===id) closeModal(id); }
+
+/* ============ DADOS DE TREINO ============ */
+var trainingData = {
+  A: { day:'SEG', title:'Treino A · Glúteo + Posterior', sub:'6 exercícios · Força máxima',
+    note:'🎯 Força máxima no glúteo. Sessão mais pesada da semana.',
+    ex:[
+      {id:'A1', name:'Cadeira Abdutora', focus:'Glúteo médio · largura do quadril', vol:'4 séries · 15-20 reps', sets:'Aquecimento: 1x15 · 20kg | Série principal: 4x15-20 · 30-35kg', tip:'Devagar na volta — contração no topo de cada repetição.'},
+      {id:'A2', name:'Elevação Pélvica com Barra', focus:'Glúteo máximo', vol:'4 séries · 6-8 reps', sets:'Aquecimento: 1x12 · 20kg CL | Pré: 1x6 · 30kg CL | Série principal: 4x6-8 · 40-50kg CL', tip:'Costas no banco, pausa 1 seg contraindo glúteo no topo.'},
+      {id:'A3', name:'Stiff Romeno com Halter', focus:'Glúteo + posterior em alongamento', vol:'4 séries · 8-10 reps', sets:'Aquecimento: 1x10 · 14kg CL | Série principal: 4x8-10 · 18-22kg CL', tip:'Halter desce pela frente da perna, sente o alongamento, sobe contraindo glúteo.'},
+      {id:'A4', name:'Búlgaro com Halter', focus:'Glúteo em alongamento', vol:'3 séries · 8-10 reps', sets:'Aquecimento: 1x10 · 4kg CL | Pré: 1x6 · 7kg CL | Série principal: 3x8-10 · 9-12kg CL', tip:'Pé traseiro no banco, desce até coxa paralela ao chão.'},
+      {id:'A5', name:'Mesa Flexora', focus:'Posterior da coxa', vol:'3 séries · 8-10 reps', sets:'Aquecimento: 1x10 · 15kg | Série principal: 3x8-10 · 20-25kg', tip:'Amplitude completa — controla a descida.'},
+      {id:'A6', name:'Abdômen — Prancha Lateral', focus:'Oblíquos · cintura', vol:'3 séries · 40-60 seg/lado', sets:'Série: 3x 40-60 segundos de cada lado', tip:'Corpo reto, quadril não afunda. Aumenta o tempo progressivamente.', metric:'Tempo'}
+    ]},
+  B: { day:'TER', title:'Treino B · Costas + Bíceps + Ombro', sub:'9 exercícios · V nas costas',
+    note:'🎯 Largura das costas em V + volume de ombro = ilusão de cintura mais fina.',
+    ex:[
+      {id:'B1', name:'Puxador Frontal Pegada Aberta', focus:'Largura das costas', vol:'4 séries · 8-10 reps', sets:'Aquecimento: 1x10 · 15kg | Série principal: 4x8-10 · 25-32kg', tip:'Pegada bem aberta, puxa até o queixo, cotovelos apontam para baixo e fora.'},
+      {id:'B2', name:'Remada Unilateral com Halter', focus:'Costas · espessura', vol:'4 séries · 8-10 reps', sets:'Aquecimento: 1x10 · 8kg CL | Série principal: 4x8-10 · 12-16kg CL', tip:'Joelho e mão no banco, costas paralelas, puxa até o quadril contraindo escápula.'},
+      {id:'B3', name:'Remada Baixa Polia', focus:'Costas · fechamento das escápulas', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x10 · 15kg | Série principal: 3x10-12 · 25-30kg', tip:'Costas retas, traz o triângulo até a barriga, cotovelos colados.'},
+      {id:'B4', name:'Elevação Lateral com Halter', focus:'Ombro lateral · afina cintura', vol:'4 séries · 12-15 reps', sets:'Aquecimento: 1x12 · 3kg CL | Série principal: 4x12-15 · 4-6kg CL', tip:'Cotovelo levemente flexionado, eleva até a altura do ombro, desce contando 3 segundos.', warn:'⚠️ Amplitude extrema de ombro. Histórico de armlock no ombro direito — NÃO passar da linha do ombro na subida. Se sentir qualquer pinçamento, reduzir amplitude antes da carga.'},
+      {id:'B5', name:'Elevação Lateral na Polia Baixa', focus:'Tensão constante no ombro', vol:'3 séries · 12-15 reps', sets:'Série principal: 3x12-15 · leve', tip:'Polia no tornozelo, braço cruzando o corpo, eleva lateralmente.', warn:'⚠️ Amplitude extrema de ombro. Elevar só até a linha do ombro. Ombro direito com limitação — controle total, sem impulso.'},
+      {id:'B6', name:'Voador Inverso com Halter', focus:'Ombro posterior · postura', vol:'3 séries · 12-15 reps', sets:'Aquecimento: 1x10 · 2kg CL | Série principal: 3x12-15 · 4-6kg CL', tip:'Tronco inclinado para frente, abre os braços como asas.'},
+      {id:'B7', name:'Rosca Direta com Halter', focus:'Bíceps', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x10 · 4kg CL | Série principal: 3x10-12 · 6-8kg CL', tip:'Cotovelo fixo, contrai no topo, desce controlado.'},
+      {id:'B8', name:'Rosca Martelo', focus:'Bíceps braquial + antebraço', vol:'2 séries · 10-12 reps', sets:'Série principal: 2x10-12 · 6-8kg CL', tip:'Polegar aponta para cima, movimento neutro — mais grossura no braço.'},
+      {id:'B9', name:'Abdômen — Abdominal Bicicleta', focus:'Reto + oblíquos', vol:'3 séries · 20 reps alternadas', sets:'Série: 3x 20 reps alternadas', tip:'Cotovelo ao joelho oposto, não torce o pescoço.', metric:'Tempo'}
+    ]},
+  C: { day:'QUA', title:'Treino C · Quadríceps + Panturrilha', sub:'7 exercícios · Coxa proporcional',
+    note:'🎯 Coxa proporcional e definida — volume suficiente sem exagero.',
+    ex:[
+      {id:'C1', name:'Cadeira Extensora', focus:'Quadríceps', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x15 · 20kg | Série principal: 3x10-12 · 50-65kg', tip:'Pausa 1 segundo com a perna estendida em cada rep.'},
+      {id:'C2', name:'Leg Press', focus:'Quadríceps + Glúteo', vol:'4 séries · 8-10 reps', sets:'Aquecimento: 1x12 · leve | Pré: 1x8 · moderado | Série principal: 4x8-10 · progressivo', tip:'Pés na largura do quadril, desce até 90 graus, joelhos não fecham.'},
+      {id:'C3', name:'Agachamento Hack', focus:'Quadríceps', vol:'3 séries · 8-10 reps', sets:'Aquecimento: 1x10 · sem carga | Série principal: 3x8-10 · 10-15kg CL', tip:'Pés na largura dos ombros, desce controlado, mantém joelhos alinhados.'},
+      {id:'C4', name:'Avanço com Halter', focus:'Glúteo + Quadríceps', vol:'3 séries · 20-30 passos', sets:'Série: 3x 20-30 passos · 5-7kg CL', tip:'Passos largos, joelho traseiro quase toca o chão.'},
+      {id:'C5', name:'Cadeira Adutora', focus:'Face interna da coxa', vol:'3 séries · 15-20 reps', sets:'Série: 3x15-20 · 15-20kg', tip:'Devagar na volta — não deixa as pernas abrirem sem controle.'},
+      {id:'C6', name:'Panturrilha no Smith', focus:'Panturrilha', vol:'4 séries · 15-20 reps', sets:'Série: 4x15-20 · 10-15kg CL', tip:'Amplitude completa, pausa 1 segundo no topo.'},
+      {id:'C7', name:'Abdômen — Remador', focus:'Core', vol:'3 séries · até a falha', sets:'Série: 3x até a falha', tip:'Costas retas, puxa os joelhos ao peito controlando o movimento.', metric:'Tempo'}
+    ]},
+  D: { day:'QUI', title:'Treino D · Glúteo + Posterior + Ombro', sub:'7 exercícios · 2ª dose glúteo',
+    note:'🎯 2ª dose de glúteo — contração máxima e glúteo médio. 2ª dose de ombro.',
+    ex:[
+      {id:'D1', name:'Glúteo na Polia', focus:'Contração máxima', vol:'4 séries · 10-12 reps', sets:'Aquecimento: 1x10 · 15kg | Pré: 1x6 · 20kg | Série principal: 4x10-12 · 25-30kg', tip:'Tornozelo na polia, coice para trás e para cima, contrai glúteo no topo, volta devagar.'},
+      {id:'D2', name:'Agachamento Sumo com Halter', focus:'Glúteo + adutores', vol:'3 séries · 8-10 reps', sets:'Aquecimento: 1x12 · 12kg | Série principal: 3x8-10 · 20-26kg', tip:'Pés bem abertos e voltados para fora, desce até as coxas paralelas.'},
+      {id:'D3', name:'Cadeira Abdutora', focus:'Glúteo médio · 2ª dose', vol:'4 séries · 15-20 reps', sets:'Série: 4x15-20 · 30-35kg', tip:'Devagar na volta — contração no topo de cada rep.'},
+      {id:'D4', name:'Flexora em Pé', focus:'Posterior unilateral', vol:'3 séries · 8-10 reps', sets:'Aquecimento: 1x15 · 15kg CL | Série principal: 3x8-10 · 22-28kg CL', tip:'Movimento completo — amplitude total no unilateral.'},
+      {id:'D5', name:'Elevação Pélvica Unilateral', focus:'Glúteo médio · corrige assimetrias', vol:'3 séries · 12-15 reps/lado', sets:'Série: 3x12-15 cada lado · 20-25kg', tip:'Um pé fora do banco — trabalha a assimetria.'},
+      {id:'D6', name:'Elevação Lateral com Halter', focus:'Ombro · 2ª dose', vol:'4 séries · 12-15 reps', sets:'Série: 4x12-15 · 4-6kg CL', tip:'Descida lenta 3 segundos — sempre.', warn:'⚠️ Amplitude extrema de ombro. Não passar da linha do ombro. Ombro direito com histórico de armlock — controle total.'},
+      {id:'D7', name:'Abdômen — Prancha Isométrica', focus:'Core', vol:'3 séries · até a falha', sets:'Série: 3x até a falha', tip:'Cotovelos no chão, corpo reto como tábua — não deixa o quadril subir.', metric:'Tempo'}
+    ]},
+  E: { day:'SEX', title:'Treino E · Peito + Tríceps + Ombro', sub:'8 exercícios · Upper + ombro',
+    note:'🎯 Upper completo. 3ª dose de ombro lateral da semana.',
+    ex:[
+      {id:'E1', name:'Peck Deck — Voador na Máquina', focus:'Peito', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x12 · 15kg | Série principal: 3x10-12 · 20-25kg', tip:'Fecha na frente contraindo o peito, volta devagar.'},
+      {id:'E2', name:'Supino Halter — Banco Inclinado', focus:'Peito superior', vol:'3 séries · 8-10 reps', sets:'Aquecimento: 1x10 · 5kg CL | Série principal: 3x8-10 · 8-12kg CL', tip:'Halter desce até o peito, cotovelos a 45° do corpo.'},
+      {id:'E3', name:'Desenvolvimento com Halter', focus:'Ombro · reintroduzido', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x10 · 3kg CL | Série principal: 3x10-12 · 5-7kg CL', tip:'Se sentir dor — reduz amplitude antes de reduzir carga.', warn:'⚠️ CARGA ACIMA DA CABEÇA. Histórico de armlock no ombro direito com limitação. Cotovelo não passa de ~90° na descida, não trava em cima, sem arquear a lombar. Qualquer desconforto no ombro direito = interromper a série.'},
+      {id:'E4', name:'Elevação Lateral com Halter', focus:'Ombro · 3ª dose', vol:'4 séries · 12-15 reps', sets:'Série: 4x12-15 · 4-6kg CL', tip:'Descida lenta 3 segundos — sempre.', warn:'⚠️ Amplitude extrema de ombro. Não passar da linha do ombro. Ombro direito com limitação — controle total, sem impulso.'},
+      {id:'E5', name:'Tríceps Polia Alta — Barra Reta', focus:'Tríceps', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x10 · 10kg | Série principal: 3x10-12 · 15-20kg', tip:'Cotovelos fixos ao lado do corpo, estende totalmente.'},
+      {id:'E6', name:'Tríceps Polia Alta — Corda', focus:'Definição externa do braço', vol:'3 séries · 10-12 reps', sets:'Série: 3x10-12 · 12-15kg', tip:'Abre a corda para os lados no final do movimento.'},
+      {id:'E7', name:'Rosca Direta com Halter', focus:'Bíceps', vol:'3 séries · 10-12 reps', sets:'Aquecimento: 1x10 · 4kg CL | Série principal: 3x10-12 · 6-8kg CL', tip:'Cotovelo fixo, contrai no topo, desce controlado.'},
+      {id:'E8', name:'Abdômen — Canivete', focus:'Core', vol:'3 séries · até a falha', sets:'Série: 3x até a falha', tip:'Deitada, eleva pernas e tronco ao mesmo tempo contraindo o abdômen.', metric:'Tempo'}
+    ]}
+};
+var exIndex = {};
+Object.keys(trainingData).forEach(function(k){ trainingData[k].ex.forEach(function(e){ exIndex[e.id]=e; }); });
+
+function renderTraining(container){
+  var prefix = container.getAttribute('data-prefix') || 't';
+  var html = '';
+  ['A','B','C','D','E'].forEach(function(k){
+    var w = trainingData[k];
+    var accId = prefix + '-acc-' + k;
+    html += '<div class="acc" id="'+accId+'">'
+      + '<div class="acc-header" onclick="toggleAcc(\''+accId+'\')">'
+      + '<div class="card-time" style="font-size:13px;">'+w.day+'</div>'
+      + '<div><div class="acc-title" style="font-size:16px;">'+w.title+'</div><div class="acc-sub">'+w.sub+'</div></div>'
+      + '<div class="acc-chevron">▼</div></div>'
+      + '<div class="acc-body" style="padding-top:12px;">'
+      + '<div class="note" style="margin:0 0 12px;">'+w.note+'</div>';
+    w.ex.forEach(function(e){
+      var metric = e.metric || 'Carga';
+      var ph = metric === 'Tempo' ? 'seg' : 'kg';
+      html += '<div class="ex-row'+(e.warn?' warn':'')+'" onclick="openEx(\''+e.id+'\')">'
+        + '<div class="ex-row-info"><div class="ex-row-name">'+(e.warn?'⚠️ ':'')+e.name+'</div>'
+        + '<div class="ex-row-sets">'+e.vol+'</div></div>'
+        + '<div class="ex-row-input" onclick="event.stopPropagation()">'
+        + '<div><label>'+metric+'</label><input type="text" inputmode="text" placeholder="'+ph+'" data-load="'+e.id+'" oninput="syncLoad(this)"></div>'
+        + '<button class="ex-row-save" onclick="flashSaved(this)">OK</button>'
+        + '</div></div>';
+    });
+    html += '</div></div>';
+  });
+  container.innerHTML = html;
+}
+
+function openEx(id){
+  var e = exIndex[id];
+  if(!e) return;
+  document.getElementById('exm-name').textContent = (e.warn?'⚠️ ':'') + e.name;
+  var ww = document.getElementById('exm-warn-wrap');
+  if(e.warn){ document.getElementById('exm-warn').textContent = e.warn; ww.style.display=''; }
+  else { ww.style.display='none'; }
+  document.getElementById('exm-focus').textContent = e.focus;
+  document.getElementById('exm-volume').textContent = e.vol;
+  var setsEl = document.getElementById('exm-sets');
+  setsEl.innerHTML = '';
+  e.sets.split('|').forEach(function(s){
+    var t = s.trim(); if(!t) return;
+    var cls = 'modal-tag';
+    var low = t.toLowerCase();
+    if(low.indexOf('aquec')===0) cls += ' warm';
+    else if(low.indexOf('pré')===0 || low.indexOf('pre')===0) cls += ' pre';
+    else cls += ' main';
+    var span = document.createElement('span');
+    span.className = cls; span.textContent = t;
+    setsEl.appendChild(span);
+  });
+  document.getElementById('exm-tip').textContent = e.tip || '—';
+  openModal('ex-modal');
+}
+
+/* ============ CARGAS (localStorage) ============ */
+function syncLoad(input){
+  var id = input.getAttribute('data-load');
+  var val = input.value.trim();
+  try { localStorage.setItem('protocolo_load_' + id, val); } catch(err){}
+  document.querySelectorAll('input[data-load="'+id+'"]').forEach(function(other){
+    if(other !== input) other.value = input.value;
+  });
+}
+function flashSaved(btn){
+  var input = btn.parentElement.querySelector('input[data-load]');
+  if(input) syncLoad(input);
+  var old = btn.textContent;
+  btn.textContent = '✓'; btn.classList.add('done');
+  setTimeout(function(){ btn.textContent = old; btn.classList.remove('done'); }, 1400);
+}
+function loadCargas(){
+  document.querySelectorAll('input[data-load]').forEach(function(input){
+    try {
+      var v = localStorage.getItem('protocolo_load_' + input.getAttribute('data-load'));
+      if(v !== null && v !== '') input.value = v;
+    } catch(err){}
+  });
+}
+
+/* ============ CALCULADORA DE SUBSTITUIÇÃO ============ */
+/* Fonte: TACO + USDA FoodData Central. Métrica por grupo:
+   carbo/frutas → g carboidrato/100g · proteina/laticinios → g proteína/100g
+   gordura → g gordura total/100g · verduras → kcal/100g · fibras → g fibra/100g */
+var nutritionDB = {
+  carbo:{ label:'carboidrato', items:[
+    ['Arroz branco cozido',28],['Arroz integral cozido',23],['Batata doce cozida',18],['Batata inglesa cozida',15],
+    ['Macarrão cozido',25],['Mandioca cozida',30],['Pão integral',41],['Tapioca (goma seca)',85],['Aveia em flocos',66],
+    ['Biscoito de arroz',82],['Cuscuz de milho cozido',22],['Inhame cozido',24],['Cará cozido',25],['Polenta cozida',16],['Quinoa cozida',21] ]},
+  proteina:{ label:'proteína', items:[
+    ['Frango peito grelhado',32],['Tilápia grelhada',26],['Atum em água escorrido',29],['Patinho grelhado',30],
+    ['Carne moída magra grelhada',26],['Fígado bovino grelhado',29],['Sardinha em água',25],['Salmão grelhado',25],
+    ['Sobrecoxa s/ pele grelhada',27],['Ovo inteiro cozido',13],['Clara de ovo cozida',11],['Whey protein (pó)',80],
+    ['Albumina (pó)',75],['Cottage',12],['Iogurte grego desnatado',10],['Queijo minas frescal',17],['Peito de peru fatiado',18],
+    ['Atum fresco grelhado',30],['Lula grelhada',18],['Camarão cozido',20] ]},
+  gordura:{ label:'gordura', items:[
+    ['Azeite extravirgem',100],['Abacate',15],['Pasta de amendoim integral',50],['Amêndoas',50],['Castanha-do-pará',66],
+    ['Nozes',65],['Amendoim torrado',46],['Chia',31],['Linhaça',42],['Coco seco ralado',62],['Azeite de coco',100],
+    ['Tahine (pasta de gergelim)',54],['Gergelim',48],['Macadâmia',76],['Pistache',45] ]},
+  frutas:{ label:'carboidrato (fruta)', items:[
+    ['Banana prata',23],['Maçã',15],['Pera',13],['Laranja',12],['Uva',17],['Mamão papaia',10],['Manga',15],['Melancia',8],
+    ['Morango',8],['Abacaxi',13],['Kiwi',15],['Mirtilo (blueberry)',14],['Framboesa',12],['Maracujá (polpa)',13],['Goiaba',14],
+    ['Caju',11],['Pêssego',10],['Ameixa fresca',11] ]},
+  verduras:{ label:'kcal', items:[
+    ['Abobrinha cozida',15],['Brócolis cozido',25],['Cenoura crua',35],['Pepino cru',13],['Tomate cru',15],['Alface',13],
+    ['Espinafre cozido',20],['Couve-flor cozida',22],['Chuchu cozido',19],['Beterraba cozida',44],['Berinjela cozida',24],
+    ['Quiabo cozido',33],['Vagem cozida',28],['Repolho cru',25],['Couve cozida',26],['Pimentão cru',27],['Ervilha cozida',69],['Milho verde cozido',86] ]},
+  laticinios:{ label:'proteína', items:[
+    ['Leite desnatado',3.4],['Leite semidesnatado',3.3],['Leite sem lactose desnatado',3.4],['Leite de aveia',1.0],
+    ['Leite de amêndoas s/ açúcar',1.1],['Leite de coco',2.3],['Iogurte natural desnatado',5.0],['Iogurte grego desnatado',10.0],
+    ['Cottage',12.0],['Ricota',11.0],['Queijo minas frescal',17.0],['Queijo branco light',19.0],['Whey isolado (referência)',90.0] ]},
+  fibras:{ label:'fibra', items:[
+    ['Psyllium',70],['Chia',34],['Linhaça',27],['Farelo de aveia',15],['Aveia em flocos',10],['Farinha de amêndoas',11],
+    ['Pão integral',6],['Lentilha cozida',8],['Grão-de-bico cozido',8],['Feijão cozido',6],['Brócolis cozido',3],
+    ['Cenoura crua',3],['Pera com casca',3],['Maçã com casca',2],['Arroz integral cozido',2],['Couve-flor cozida',2] ]}
+};
+function resetCalc(){
+  var grupo = document.getElementById('calc-grupo').value;
+  var foodWrap = document.getElementById('calc-food-wrap');
+  var qtyWrap = document.getElementById('calc-qty-wrap');
+  var btnWrap = document.getElementById('calc-btn-wrap');
+  document.getElementById('calc-results').innerHTML = '';
+  if(!grupo){ foodWrap.style.display='none'; qtyWrap.style.display='none'; btnWrap.style.display='none'; return; }
+  var items = nutritionDB[grupo].items;
+  var sel = document.getElementById('calc-alimento');
+  sel.innerHTML = '<option value="">Selecione o alimento...</option>';
+  items.forEach(function(pair,i){
+    var opt = document.createElement('option');
+    opt.value = i; opt.textContent = pair[0];
+    sel.appendChild(opt);
+  });
+  foodWrap.style.display=''; qtyWrap.style.display='none'; btnWrap.style.display='none';
+}
+function showQty(){
+  var idx = document.getElementById('calc-alimento').value;
+  var qtyWrap = document.getElementById('calc-qty-wrap');
+  var btnWrap = document.getElementById('calc-btn-wrap');
+  document.getElementById('calc-results').innerHTML = '';
+  if(idx === ''){ qtyWrap.style.display='none'; btnWrap.style.display='none'; return; }
+  document.getElementById('calc-quantidade').value = 100;
+  qtyWrap.style.display=''; btnWrap.style.display='';
+}
+function calcSubst(){
+  var grupo = document.getElementById('calc-grupo').value;
+  var idx = parseInt(document.getElementById('calc-alimento').value, 10);
+  var grams = parseFloat(document.getElementById('calc-quantidade').value);
+  if(!grupo || isNaN(idx) || isNaN(grams) || grams <= 0) return;
+  var data = nutritionDB[grupo];
+  var origem = data.items[idx];
+  var refTotal = (grams * origem[1]) / 100;
+  var unidade = grupo === 'verduras' ? 'kcal' : 'g';
+  var html = '<div style="font-size:13px; color:var(--text3); margin-bottom:12px; padding:10px 12px; background:var(--bg4); border-radius:8px; line-height:1.6;">'
+    + '<strong style="color:var(--text)">'+grams+'g de '+origem[0]+'</strong><br>= <strong style="color:var(--neon)">'
+    + (refTotal % 1 === 0 ? refTotal : refTotal.toFixed(1)) + ' ' + unidade + '</strong> de ' + data.label + '</div>';
+  data.items.forEach(function(pair,i){
+    if(i === idx || pair[1] <= 0) return;
+    var qtd = (refTotal / pair[1]) * 100;
+    var disp = qtd < 10 ? qtd.toFixed(1) : Math.round(qtd);
+    html += '<div class="calc-result-item"><div class="calc-result-name">'+pair[0]+'</div><div class="calc-result-qty">'+disp+'g</div></div>';
+  });
+  document.getElementById('calc-results').innerHTML = html;
+}
+/* ============ DADOS DE ALONGAMENTO ============ */
+function fig(neon, grey){
+  return '<svg viewBox="0 0 220 170" xmlns="http://www.w3.org/2000/svg">'
+    + (grey || '')
+    + '<g fill="none" stroke="#39FF14" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">'
+    + neon + '</g></svg>';
+}
+var FLOOR = '<line x1="15" y1="150" x2="205" y2="150" stroke="#707070" stroke-width="3"/>';
+
+var stretchData = {
+  A:[
+    { name:'Alongamento lombar em joelhos (posição de criança)', muscle:'Lombar e glúteo', hold:'3x 45 seg',
+      howto:'Ajoelhe, sente os glúteos sobre os calcanhares e leve o tronco para a frente até a testa perto do chão. Estenda os braços à frente e respire fundo, soltando a lombar a cada expiração.',
+      svg: fig('<path d="M118 141 L170 141"/><path d="M118 141 L122 116"/><path d="M122 116 Q100 106 74 128"/><circle cx="62" cy="130" r="11"/><path d="M80 122 L34 141"/>', FLOOR) },
+    { name:'Alongamento piriforme deitado (figura 4)', muscle:'Glúteo superior e região do piriforme (tipo ciático)', hold:'3x 40 seg cada lado',
+      howto:'Deitada de costas, cruze o tornozelo de um lado sobre o joelho oposto formando um "4". Puxe a coxa de apoio em direção ao peito até sentir o alongamento no glúteo. Troque de lado.',
+      svg: fig('<path d="M40 137 L104 137"/><circle cx="30" cy="132" r="10"/><path d="M104 137 L134 100"/><path d="M134 100 L116 137"/><path d="M110 130 L140 106"/><path d="M140 106 L152 114"/><path d="M60 137 L54 151"/>', FLOOR) },
+    { name:'Alongamento posterior de coxa deitado com faixa ou toalha', muscle:'Isquiotibiais', hold:'3x 40 seg cada lado',
+      howto:'Deitada de costas, passe uma faixa ou toalha na sola do pé e eleve a perna esticada em direção ao teto, mantendo o joelho quase reto. A outra perna fica estendida no chão. Troque de lado.',
+      svg: fig('<path d="M45 138 L104 138"/><circle cx="35" cy="133" r="10"/><path d="M104 138 L168 138"/><path d="M168 138 L176 130"/><path d="M104 138 L128 58"/><path d="M128 58 L136 50"/><path d="M74 136 L126 62"/>', FLOOR) },
+    { name:'Alongamento de panturrilha na parede', muscle:'Gastrocnêmio e sóleo', hold:'2x 40 seg cada lado',
+      howto:'De frente para a parede, mãos apoiadas nela. Leve uma perna atrás bem esticada, calcanhar pressionando o chão, e dobre a da frente. Sinta a panturrilha da perna de trás alongar. Troque de lado.',
+      svg: fig('<circle cx="95" cy="40" r="11"/><path d="M95 51 L109 96"/><path d="M109 96 L121 120 L119 150"/><path d="M109 96 L80 150"/><path d="M100 60 L168 72"/>', '<line x1="176" y1="14" x2="176" y2="150" stroke="#707070" stroke-width="4"/>' + FLOOR) },
+    { name:'Liberação plantar em pé rolando bola ou garrafa', muscle:'Sola do pé e fáscia plantar', hold:'2x 60 seg cada pé',
+      howto:'Em pé, apoie o meio do pé sobre uma bolinha ou garrafa e role da base dos dedos até o calcanhar, com pressão firme mas tolerável. Segure-se em algo para o equilíbrio. Troque de pé.',
+      svg: fig('<circle cx="100" cy="35" r="11"/><path d="M100 46 L100 100"/><path d="M100 62 L82 82"/><path d="M100 62 L118 82"/><path d="M100 100 L92 150"/><path d="M100 100 L128 132"/><path d="M128 132 L143 139"/>', FLOOR + '<circle cx="150" cy="143" r="9" fill="none" stroke="#707070" stroke-width="3"/>') },
+    { name:'Alongamento de glúteo sentado cruzando perna', muscle:'Glúteo médio e superior', hold:'2x 40 seg cada lado',
+      howto:'Sentada com o tronco ereto, cruze um tornozelo sobre o joelho oposto e incline levemente o tronco para a frente mantendo as costas retas, até sentir o glúteo alongar. Troque de lado.',
+      svg: fig('<path d="M90 150 L92 95"/><circle cx="92" cy="82" r="11"/><path d="M90 149 L136 149"/><path d="M108 149 L118 126"/><path d="M118 126 L150 140"/><path d="M92 100 L120 122"/>', FLOOR) },
+    { name:'Gato-vaca no solo', muscle:'Lombar, torácica e mobilidade da coluna', hold:'3x 10 respirações',
+      howto:'Em quatro apoios, mãos sob os ombros e joelhos sob o quadril. Na inspiração afunde a barriga e olhe para cima (vaca); na expiração arredonde as costas e leve o queixo ao peito (gato). Movimento lento com a respiração.',
+      svg: fig('<path d="M150 150 L150 100"/><path d="M95 150 L95 100"/><path d="M95 100 Q122 76 150 100"/><path d="M150 100 L162 112"/><circle cx="169" cy="117" r="9"/>', FLOOR) },
+    { name:'Rotação torácica deitado', muscle:'Coluna torácica e oblíquos', hold:'2x 8 repetições cada lado',
+      howto:'Deitada de lado com joelhos dobrados a 90°, braços estendidos à frente juntos. Abra o braço de cima girando o tronco para o lado oposto até as costas encostarem no chão, acompanhando com o olhar. Volte e repita; depois troque de lado.',
+      svg: fig('<path d="M58 132 L120 132"/><circle cx="48" cy="127" r="10"/><path d="M88 130 L88 96"/><path d="M92 134 L92 166"/><path d="M120 132 L146 120"/><path d="M146 120 L150 100"/><path d="M150 100 L162 112"/>', FLOOR) }
+  ],
+  B:[
+    { name:'Alongamento de peito na porta', muscle:'Peitoral e ombro anterior', hold:'3x 40 seg',
+      howto:'Em pé no vão da porta, apoie antebraço e cotovelo no batente à altura do ombro. Dê um passo à frente e gire levemente o tronco para o lado oposto até sentir o peito abrir. Sem forçar o ombro.',
+      svg: fig('<circle cx="95" cy="38" r="11"/><path d="M95 49 L98 110"/><path d="M98 110 L88 150"/><path d="M98 110 L114 150"/><path d="M96 60 L140 46 L162 60"/><path d="M99 68 L86 100"/>', '<line x1="168" y1="14" x2="168" y2="150" stroke="#707070" stroke-width="4"/>' + FLOOR) },
+    { name:'Alongamento cervical lateral sentado', muscle:'Trapézio superior e cervical', hold:'3x 30 seg cada lado',
+      howto:'Sentada com a coluna ereta, leve a orelha em direção ao ombro do mesmo lado. Apoie a mão desse lado sobre a cabeça sem puxar forte — o peso do braço já basta. A outra mão desce ao lado do corpo. Troque de lado.',
+      svg: fig('<path d="M95 120 L95 70"/><circle cx="87" cy="58" r="11"/><path d="M95 80 L79 48"/><path d="M95 84 L108 116"/><path d="M95 120 L120 120"/><path d="M120 120 L120 150"/>', '<line x1="66" y1="120" x2="122" y2="120" stroke="#707070" stroke-width="4"/><line x1="70" y1="120" x2="70" y2="150" stroke="#707070" stroke-width="4"/>' + FLOOR) },
+    { name:'Alongamento de ombro cruzado', muscle:'Deltóide posterior e rombóide', hold:'3x 35 seg cada lado',
+      howto:'Em pé, leve um braço esticado na horizontal cruzando o peito. Com o antebraço oposto, apoiado na parte de trás do braço, aproxime-o do corpo. Ombros baixos, sem girar o tronco. Troque de lado.',
+      svg: fig('<circle cx="100" cy="35" r="11"/><path d="M100 46 L100 106"/><path d="M100 106 L90 150"/><path d="M100 106 L110 150"/><path d="M100 60 L150 76"/><path d="M120 96 L150 82"/>', FLOOR) },
+    { name:'Alongamento de psoas em avanço', muscle:'Psoas e quadril anterior', hold:'3x 40 seg cada lado',
+      howto:'Em posição de avanço com o joelho de trás apoiado no chão. Mantenha o tronco ereto e empurre o quadril suavemente para a frente, contraindo o glúteo do lado de trás. Sinta a frente do quadril alongar. Troque de lado. FOCO: desfaz o padrão de ficar muito tempo sentada.',
+      svg: fig('<circle cx="95" cy="40" r="11"/><path d="M95 51 L98 100"/><path d="M98 100 L120 122 L120 150"/><path d="M98 100 L78 140 L55 150"/><path d="M96 62 L120 118"/><path d="M99 66 L80 92"/>', FLOOR) },
+    { name:'Alongamento de quadríceps em pé', muscle:'Quadríceps e joelho', hold:'2x 40 seg cada lado',
+      howto:'Em pé, dobre um joelho levando o calcanhar ao glúteo e segure o tornozelo com a mão do mesmo lado. Joelhos juntos, quadril levemente à frente, tronco ereto. Segure-se em algo para o equilíbrio. Troque de lado.',
+      svg: fig('<circle cx="100" cy="33" r="11"/><path d="M100 44 L100 100"/><path d="M100 100 L96 150"/><path d="M100 100 L104 128 L92 95"/><path d="M100 60 L92 95"/><path d="M100 58 L122 44"/>', FLOOR) },
+    { name:'Abertura de quadril borboleta sentada', muscle:'Adutores e quadril interno', hold:'3x 45 seg',
+      howto:'Sentada, junte as solas dos pés e deixe os joelhos caírem para os lados. Segure os pés com as mãos e alongue a coluna para cima; para intensificar, incline o tronco à frente com as costas retas.',
+      svg: fig('<path d="M100 145 L100 95"/><circle cx="100" cy="83" r="11"/><path d="M100 145 L70 150 L98 140"/><path d="M100 145 L130 150 L102 140"/><path d="M96 102 L92 140"/><path d="M104 102 L108 140"/>', FLOOR) },
+    { name:'Alongamento de ombro atrás da cabeça', muscle:'Tríceps e ombro superior', hold:'2x 35 seg cada lado',
+      howto:'Em pé, eleve um braço e dobre o cotovelo levando a mão para trás da cabeça, entre as escápulas. Com a outra mão, apoie levemente o cotovelo. LADO DIREITO: amplitude moderada — não force, respeite o limite do ombro.',
+      warn:'⚠️ LADO DIREITO: amplitude moderada. Histórico de armlock no ombro direito com limitação. Levar a mão para trás só até onde não há dor ou pinçamento — nunca puxar o cotovelo com força nesse lado.',
+      svg: fig('<circle cx="100" cy="38" r="12"/><path d="M100 51 L100 108"/><path d="M100 108 L90 150"/><path d="M100 108 L110 150"/><path d="M100 58 L110 28 L90 40"/><path d="M100 60 L108 28"/>', FLOOR) },
+    { name:'Thread the needle (agulha)', muscle:'Coluna torácica, ombro e rotação', hold:'3x 35 seg cada lado',
+      howto:'Em quatro apoios, deslize um braço por baixo do corpo, na direção do lado oposto, apoiando o ombro e a lateral da cabeça no chão. O outro braço fica apoiado ou estendido à frente. Sinta a rotação entre as escápulas. Troque de lado.',
+      svg: fig('<path d="M110 150 L108 100"/><path d="M150 150 L145 106"/><path d="M108 100 Q126 94 150 118"/><path d="M150 118 L120 140"/><circle cx="150" cy="130" r="9"/>', FLOOR) }
+  ]
+};
+
+function renderStretch(container){
+  var groups = [
+    ['A','Dia A','Cadeia posterior · lombar · pés'],
+    ['B','Dia B','Postural · ombros · cervical']
+  ];
+  var v = container.getAttribute('data-stretch');
+  var suf = (v === 'home') ? 'along' : 'c' + v;
+  var html = '';
+  groups.forEach(function(p){
+    var rows = '';
+    stretchData[p[0]].forEach(function(s,i){
+      rows += '<div class="ex-row'+(s.warn?' warn':'')+'" onclick="openStretch(\''+p[0]+'\','+i+')">'
+        + '<div class="ex-row-info"><div class="ex-row-name">'+(i+1)+'. '+(s.warn?'⚠️ ':'')+s.name+'</div>'
+        + '<div class="ex-row-sets">'+s.hold+'</div></div>'
+        + '<div class="ex-row-chev">›</div></div>';
+    });
+    html += '<div class="acc" id="acc-dia-'+p[0].toLowerCase()+'-'+suf+'">'
+      + '<div class="acc-header" onclick="toggleAccEl(this)">'
+      + '<div class="acc-icon">📅</div>'
+      + '<div><div class="acc-title">'+p[1]+'</div>'
+      + '<div class="acc-sub">'+p[2]+' · ~22 min</div></div>'
+      + '<div class="acc-chevron">▼</div></div>'
+      + '<div class="acc-body" style="padding-top:10px;">'+rows+'</div>'
+      + '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function openStretch(day, i){
+  var s = stretchData[day][i];
+  if(!s) return;
+  document.getElementById('stm-name').textContent = (i+1) + '. ' + (s.warn?'⚠️ ':'') + s.name;
+  document.getElementById('stm-svg').innerHTML = s.svg;
+  var ww = document.getElementById('stm-warn-wrap');
+  if(s.warn){ document.getElementById('stm-warn').textContent = s.warn; ww.style.display=''; }
+  else { ww.style.display='none'; }
+  document.getElementById('stm-muscle').textContent = s.muscle;
+  document.getElementById('stm-hold').textContent = s.hold;
+  document.getElementById('stm-howto').textContent = s.howto;
+  openModal('st-modal');
+}
+
+/* ============ INIT ============ */
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('[data-training]').forEach(renderTraining);
+  document.querySelectorAll('[data-stretch]').forEach(renderStretch);
+  loadCargas();
+  var id = (location.hash || '#home').slice(1);
+  if(id && id !== 'home' && document.getElementById(id)){
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+    document.getElementById(id).classList.add('active');
+    resetScenarioTabs(id);
+  }
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){ closeModal('ex-modal'); closeModal('st-modal'); }
+});
+</script>
+
+</body>
+</html>
